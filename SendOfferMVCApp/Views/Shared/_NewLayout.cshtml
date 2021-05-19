@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title Boom Store </title>
+    @Styles.Render("~/Content/css")
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/customStyle.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+</head>
+<body>
+    <div id="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h1 id="logo"> @Html.ActionLink("Boom Store", "Index", "Home", null, new { @class = "text-white" }) </h1>
+                </div>
+                <div class="col-md-8">
+                    <ul id="menu" class="float-md-right">
+                        
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Contact Us", "ContactUs", "Home")</li>
+                        <li>@Html.ActionLink("About Us", "AboutUs", "Home")</li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>   @Html.ActionLink("Add Product", "AddProduct", "Home")</li>
+                            <li id="userName">   Dear - @Session["CurrentUserName"] </li>
+                            <li>
+                                @Html.ActionLink("Notification", "ShowNotification", "Home")
+
+                            </li>
+                            <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Login", "Login", "Account")</li>
+                            <li>@Html.ActionLink("Sign Up", "SignUp", "Account")</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+
+    <div>
+        @RenderBody()
+    </div>
+    <div id="footer-sidebar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-widget">
+                        <h4>About Company</h4>
+                        <p> this is dummy text. this is dummy text. this is dummy text. this is dummy text. this is dummy text. this is dummy text. this is dummy text. this is dummy text. </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4" align="center">
+                    <div class="footer-widget">
+                        <h4>Follow Us</h4>
+                        <ul id="social-icons">
+                            <li><a href=""> Facebook</a></li>
+                            <li><a href=""> Instagram</a></li>
+                            <li><a href=""> Linkdin</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="footer-widget">
+                        <h4>Company Address</h4>
+                        <address>  <b>Flexi Tower</b> E-288, Phase-8, Mohali, India </address>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div class="container ">
+            <div class="row">
+                <div class="col footer-year">
+                    Copyright&#64;@DateTime.Now.Year Boom Store
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/moment.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Scripts/myScript.js"></script>
+    <script src="~/Scripts/customJavaScript.js"></script>
+    @RenderSection("scripts", required: false)
+<style>
+
+        #footer-sidebar {
+            color: #fff;
+            background: #34495e;
+            padding: 20px 0px;
+            margin-top: 40px;
+        }
+
+            #footer-sidebar a {
+                color: #fff;
+            }
+
+        .footer-widget {
+            align-content: center;
+        }
+
+            .footer-widget h4:after {
+                content: "";
+                background: #fff;
+                display: block;
+                width: 50px;
+                height: 2px;
+                margin: 5px 0;
+            }
+
+            .footer-widget ul {
+                list-style: none;
+                padding: 0px;
+                margin: 0px;
+            }
+
+        #footer {
+            color: #fff;
+            background: #2c3e50;
+            padding: 10px 0;
+        }
+
+        .footer-year {
+            text-align: center;
+        }
+   
+</style>
+    <script>
+        $(window).resize(function () {
+            var mobileWidth = (window.innerWidth > 0) ?
+                window.innerWidth :
+                screen.width;
+            var viewport = (mobileWidth > 360) ?
+                'width=device-width, initial-scale=1.0' :
+                'width=1200';
+            $("meta[name=viewport]").attr('content', viewport);
+        }).resize();
+        
+    </script>
+
+</body>
+</html>

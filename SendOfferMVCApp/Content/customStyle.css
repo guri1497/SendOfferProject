@@ -1,0 +1,161 @@
+﻿
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+
+
+a:hover {
+    text-decoration: none;
+    
+}
+
+#header {
+    color: #fff;
+    background: #e74c3c;
+}
+
+#logo {
+    font-size: 2rem;
+    margin-top: 5px;
+}
+
+#menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    #menu li {
+        display: inline-block;
+    }
+
+        #menu li a {
+            color: #fff;
+            padding: 15px 10px;
+            display: block;
+        }
+
+            #menu li a:hover {
+                background: #c0392b;
+            }
+
+#banner {
+    background: url("../AppImages/banner.jpg") no-repeat 0 0;
+    background-size: cover;
+    margin:0px;
+}
+
+.banner-title {
+    padding-top: 5rem;
+}
+
+    .banner-title h1 {
+        background: rgba(255,255,255,0.8);
+        display: inline-block;
+        padding: 10px;
+        margin: 0;
+    }
+
+    .banner-title p.lead {
+        color: #fff;
+        background: rgba(231, 76, 60, 0.7);
+        padding: 10px;
+    }
+
+.btn-primary {
+    background-color: #e74c3c;
+    border:none;
+}
+
+    .btn-primary:hover {
+        background: #c0392b;
+    }
+
+#myactionlink {
+    color: #e74c3c;
+}
+
+    #myactionlink:hover {
+        color: #c0392b;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*body {
+    padding:30px;
+    margin:10px;
+}*/
+/*.container {
+    border: 2px solid black;
+    background-color: red;
+    width: 300px;
+    height: 350px;*/
+/*padding-left: 20px;*/
+/*}*/
+/*
+.container{
+    border: 2px solid red;
+    width:300px;
+    height:408px;
+    padding-left:20px;
+
+}
+
+
+.btn {
+    border-radius: 0 !important;
+    width: 90px;
+    height: 32px;
+    padding-top: 3px;
+    margin-left:28px;
+}
+
+.productName {
+    color: deepskyblue;
+}
+
+.datelocation {
+    color: grey;
+    margin-left:-10px;
+}
+
+.buynowbtn {
+    background-color: seagreen;
+    border: none;
+}
+
+.buyoffer {
+    background-color: white;
+    border: 1px solid seagreen;
+    color: seagreen;
+}
+
+
+.btnAll {
+    margin-top: -10px;
+}
+
+.priceValue{
+    margin-left:-15px;
+    margin-top:-10px;
+}
+
+.priceLabel{
+    margin-top:-10px;
+}
+*/

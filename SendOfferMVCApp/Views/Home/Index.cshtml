@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Product.Model.ProductModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+        <div class="row">
+            <div class="col">
+                  @Html.Partial("~/Views/Shared/_GetAllProducts.cshtml")
+            </div>
+        </div>
+</div>
+
+
+@*<div class="col-md-8">
+    <ul id="menu" class="float-md-right">
+        <li>@Html.Partial("~/Views/Shared/_GetAllProducts.cshtml")</li>
+    </ul>
+    </div>*@

@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Product.Model.ProductOfferModel>
+
+@{
+     Layout = "~/Views/Shared/_NewLayout.cshtml";
+
+}
+
+<div class="container">
+ @foreach (var item in Model)
+ {
+        <div class="row mt-4">
+            <div class="col-9">
+
+              @item.SenderName is offered $@item.OfferPrice for your @item.ProductName.
+            </div>
+            <div class="col-3">
+                <button class="btn btn-success">Accept</button>
+                <button class="btn btn-danger">Reject</button>
+            </div>
+        </div>
+        <hr />
+ }
+</div>
