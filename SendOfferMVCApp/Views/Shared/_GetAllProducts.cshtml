@@ -40,13 +40,10 @@
                         <div>
                             <span style="font-size:25px;font-weight:600" class="text-muted">Send Offer</span>
                             <div>
-                                <button type="button" class="btn btn-primary btn-sm float-right mt-n4 btnSendOffer" data-toggle="modal" data-target="#offerCard">Offer</button>
+                                <button type="button" class="btn btn-primary btn-sm float-right mt-n4 testSendOffer" data-id="@item.Id">Offer</button>
+                            </div>
 
-                            </div>
-                            <span class="itemId" style="display:none">@item.Id</span>
-                            <div id="testDiv-@item.Id" style="border:1px solid black;display:none">
-                                testing div
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -55,8 +52,7 @@
     </div>
 
 </div>
-
-
+<div style="border:2px solid green;" class="testingDiv"></div>
 
 <style>
     /*.modal {
@@ -145,37 +141,23 @@
     getRemainingTime();// call
     var interval = setInterval(getRemainingTime, 1000); // set interval for call auto function
 
-    $('.btnSendOffer').on('click', function () {
-        var itemId = $('.itemId');
-        //console.log(itemId);
-        for (i = 0; i < itemId.length; i++) {
-            //console.log(itemId.length);
-            var cItem = this.textContent;
-            var test = cItem[i];
-            console.log("cItem" + test);
-            //alert("hello" + cItem);
 
-        }
-        
+    $(".testSendOffer").click(function () {
 
-        //$(".testDiv").show();
-        
-        
-    });
-
-    $("#searchBtn").click(function () { // select element by id
-        var searchVal = $("#searchTxt").val();
-
-        $.ajax({ // start ajax function
-            url: '/Product/ProductTable', // path for which action method wants to call
+        $.ajax({
+            type: 'GET',
+            url: '/Home/TestingAction',
             data: {
-                search: searchVal  // put any data from current view
+                ID: $(this).attr('data-id')
             }
         })
-            .done(function (response) { // if task is completed then this piece of code runs
-                $("#tableCont").html(response);
+            .done(function (response) {
+                //debugger;
+                $(".testingDiv").html(response);
+
+                alert(response);
             })
-            .fail(function (XMLHttpRequest, textStatus, errorThrown) { // if task is failed then this piece of code runs
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("Fail");
             });
     });

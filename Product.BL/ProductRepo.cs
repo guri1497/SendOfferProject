@@ -80,6 +80,7 @@ namespace Product.BL
             tblProduct oneTblProducts = objWITSProjectEntities.tblProducts.Where(x => x.ID == id).FirstOrDefault();
             ProductModel listOfProduct = new ProductModel()
             {
+                Id = oneTblProducts.ID,
                 Name = oneTblProducts.Name,
                 Brand = oneTblProducts.Brand,
                 ModelNo = oneTblProducts.ModelNo,

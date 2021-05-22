@@ -1,0 +1,55 @@
+﻿@model SendOfferMVCApp.Model.ShowOfferModel
+
+@{
+    ViewBag.Title = "TestingAction";
+}
+
+<h2>TestingAction</h2>
+@*<form id="offerForm">
+    <label>Product Id</label>
+    <input name="ProductId" />
+    <br />
+    <label>Offer Price</label>
+    <input name="OfferPrice" />
+    <br />
+    <button id="btnSendOffer" type="button">Send Offer</button>
+</form>*@
+
+
+<div class="card rounded-0" style="width:241px;border:1px solid seagreen;">
+    <form id="offerForm">
+        <div class="card-header align-content-center bgSeagreen rounded-0">
+            <h4 class="card-title text-center text-white">Your Offer</h4>
+            <input type="number" style="height:55px;width:190px;border:none;" class="text-center mb-3" placeholder="$" name="OfferPrice" />
+            <input type="number" name="ProductId" style="display:none" value="@Model.ProductId" />
+        </div>
+        <div class="card-body text-center">
+            <i class="fa fa-plus-square-o text-success seagreen" aria-hidden="true"></i>
+            <a href="#" class="txtSeagreen">Add Message to Seller</a>
+            <p class="card-text text-center mt-3">By clicking Submit Offer, you are agreeing to and entering into a legally binding contract to purchase the item from the seller at your Offer Price.</p>
+            <button id="btnSendOffer" class="btn btn-success bgSeagreen rounded-0 my-3">Submit Offer</button>
+        </div>
+    </form>
+</div>
+
+
+
+<script type="text/javascript">
+
+    $("#btnSendOffer").click(function () {
+
+        $.ajax({
+            type: 'POST',
+            url: '/Home/TestingAction',
+            data: $("#offerForm").serialize()
+        })
+            .done(function (response) {
+                //debugger;
+
+                alert("done");
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Fail");
+            });
+    });
+</script>

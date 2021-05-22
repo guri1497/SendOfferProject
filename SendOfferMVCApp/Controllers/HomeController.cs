@@ -17,6 +17,7 @@ namespace SendOfferMVCApp.Controllers
         IProductRepo iProductRepo;
         IUserRepo iUserRepo;
         IProductOfferRepo iProductOfferRepo;
+
         public HomeController(IProductRepo _iProductRepo,IUserRepo _iuserRepo, IProductOfferRepo _iProductOfferRepo) // define ctor
         {
             iProductRepo = _iProductRepo;
@@ -140,9 +141,25 @@ namespace SendOfferMVCApp.Controllers
             return View("~/Views/Home/ShowNotification.cshtml",model);
         }
 
-        //public ActionResult TestOffer()
-        //{
-        //    return View();
-        //}
+        [HttpGet]
+        public ActionResult TestingAction(int ID)
+        {
+            var model = new ShowOfferModel();
+            model.ProductId = ID;
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        public ActionResult TestingAction(ShowOfferModel showOfferModel)
+        {
+            var product = iProductRepo.GetProductById(showOfferModel.ProductId);
+            ProductOfferModel newSOM = new ProductOfferModel();
+            newSOM.OfferPrice = showOfferModel.OfferPrice;
+            newSOM.ProductId = product.Id;
+            newSOM.SenderId = (int)Session["CurrentUserId"];
+            newSOM.ReceiverId = (int)product.AddedByUserId;
+            iProductOfferRepo.SaveOffer(newSOM);
+            return RedirectToAction("Index");
+        }
     }
 }

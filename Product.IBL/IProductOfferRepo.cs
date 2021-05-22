@@ -11,5 +11,8 @@ namespace Product.IBL
     {
         int SaveOfferPrice(ProductOfferModel objProductOfferModel);
         IEnumerable<ProductOfferModel> Getoffer();
+
+        void SaveOffer(ProductOfferModel objProductOfferModel);
+        ProductOfferModel GetofferByID(int ID);
     }
 }

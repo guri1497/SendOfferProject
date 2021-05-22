@@ -345,6 +345,7 @@
     <Content Include="Views\Home\Notification.cshtml" />
     <Content Include="Views\Home\ShowNotification.cshtml" />
     <Content Include="Views\Home\TestOffer.cshtml" />
+    <Content Include="Views\Home\TestingAction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Image\" />

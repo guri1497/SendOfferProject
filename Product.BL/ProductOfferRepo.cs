@@ -34,6 +34,23 @@ namespace Product.BL
             return productOfferModel;
         }
 
+        public ProductOfferModel GetofferByID(int ID)  // get all offers
+        {
+            var objProductOfferModel = objWITSProjectEntities.tblOfferPrices.Where(p => p.Product_Id == ID).FirstOrDefault();
+            ProductOfferModel productOfferModel = new ProductOfferModel()
+            {
+                OfferId = objProductOfferModel.OfferId,
+                OfferPrice = (int)objProductOfferModel.OfferPrice,
+                SenderId = objProductOfferModel.SenderId,
+                ReceiverId = objProductOfferModel.ReceiverId,
+                ProductId = objProductOfferModel.Product_Id
+            };
+           return productOfferModel;
+        }
+
+       
+
+
         public int SaveOfferPrice(ProductOfferModel objProductOfferModel) // save offer data and returns int value
         {
             tblOfferPrice tblOffer = new tblOfferPrice()
@@ -52,5 +69,23 @@ namespace Product.BL
             
             
         }
+
+        public void SaveOffer(ProductOfferModel objProductOfferModel) // save offer data and returns int value
+        {
+            tblOfferPrice tblOffer = new tblOfferPrice()
+            {
+                //OfferId = objProductOfferModel.OfferId,
+                OfferPrice = objProductOfferModel.OfferPrice,
+                SenderId = objProductOfferModel.SenderId,
+                ReceiverId = objProductOfferModel.ReceiverId,
+                Product_Id = objProductOfferModel.ProductId,
+                //SenderName = objProductOfferModel.SenderName,
+                //ReceiverName = objProductOfferModel.ReceiverName,
+                //ProductName = objProductOfferModel.ProductName
+            };
+            objWITSProjectEntities.tblOfferPrices.Add(tblOffer);
+            objWITSProjectEntities.SaveChanges();
+        }
+
     }
 }
