@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="WITSProjectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblAddress">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="AddressLine1" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="AddressLine2" Type="varchar" MaxLength="500" />
+          <Property Name="City" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Country" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblOfferPrice">
           <Key>
             <PropertyRef Name="OfferId" />
@@ -31,11 +42,7 @@
           <Property Name="AddressID" Type="int" Nullable="false" />
           <Property Name="BidEndDateTime" Type="datetime" Nullable="false" />
           <Property Name="ImagePath" Type="varchar" MaxLength="1000" />
-          <Property Name="AddressLine1" Type="varchar" MaxLength="500" />
-          <Property Name="City" Type="varchar" MaxLength="50" />
-          <Property Name="State" Type="varchar" MaxLength="50" />
-          <Property Name="Country" Type="varchar" MaxLength="50" />
-          <Property Name="AddedByUserId" Type="int" />
+          <Property Name="AddedByUserId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -58,8 +65,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblProduct_tblAddress">
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="1" />
+          <End Role="tblProduct" Type="Self.tblProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAddress">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblProduct">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblProduct_tblProduct">
+          <End Role="tblProduct" Type="Self.tblProduct" Multiplicity="1" />
+          <End Role="tblProduct1" Type="Self.tblProduct" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblProduct">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblProduct1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblProduct_User">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="tblProduct" Type="Self.tblProduct" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -71,12 +102,21 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="WITSProjectModelStoreContainer">
+          <EntitySet Name="tblAddress" EntityType="Self.tblAddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblOfferPrice" EntityType="Self.tblOfferPrice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblProduct" EntityType="Self.tblProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_tblOfferPrice_tblProduct" Association="Self.FK_tblOfferPrice_tblProduct">
             <End Role="tblProduct" EntitySet="tblProduct" />
             <End Role="tblOfferPrice" EntitySet="tblOfferPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblProduct_tblAddress" Association="Self.FK_tblProduct_tblAddress">
+            <End Role="tblAddress" EntitySet="tblAddress" />
+            <End Role="tblProduct" EntitySet="tblProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblProduct_tblProduct" Association="Self.FK_tblProduct_tblProduct">
+            <End Role="tblProduct" EntitySet="tblProduct" />
+            <End Role="tblProduct1" EntitySet="tblProduct" />
           </AssociationSet>
           <AssociationSet Name="FK_tblProduct_User" Association="Self.FK_tblProduct_User">
             <End Role="User" EntitySet="User" />
@@ -88,28 +128,39 @@
     <edmx:ConceptualModels>
       <Schema Namespace="WITSProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="WITSProjectEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Users" EntityType="WITSProjectModel.User" />
-          <EntitySet Name="tblOfferPrices" EntityType="WITSProjectModel.tblOfferPrice" />
-          <EntitySet Name="tblProducts" EntityType="WITSProjectModel.tblProduct" />
-          <AssociationSet Name="FK_tblOfferPrice_tblProduct" Association="WITSProjectModel.FK_tblOfferPrice_tblProduct">
-            <End Role="tblProduct" EntitySet="tblProducts" />
-            <End Role="tblOfferPrice" EntitySet="tblOfferPrices" />
+          <EntitySet Name="tblAddress" EntityType="WITSProjectModel.tblAddress" />
+          <EntitySet Name="tblOfferPrice" EntityType="WITSProjectModel.tblOfferPrice" />
+          <EntitySet Name="tblProduct" EntityType="WITSProjectModel.tblProduct" />
+          <EntitySet Name="User" EntityType="WITSProjectModel.User" />
+          <AssociationSet Name="FK_tblProduct_tblAddress" Association="WITSProjectModel.FK_tblProduct_tblAddress">
+            <End Role="tblAddress" EntitySet="tblAddress" />
+            <End Role="tblProduct" EntitySet="tblProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblProduct_tblProduct" Association="WITSProjectModel.FK_tblProduct_tblProduct">
+            <End Role="tblProduct" EntitySet="tblProduct" />
+            <End Role="tblProduct1" EntitySet="tblProduct" />
           </AssociationSet>
           <AssociationSet Name="FK_tblProduct_User" Association="WITSProjectModel.FK_tblProduct_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="tblProduct" EntitySet="tblProducts" />
+            <End Role="User" EntitySet="User" />
+            <End Role="tblProduct" EntitySet="tblProduct" />
           </AssociationSet>
-          </EntityContainer>
-        <EntityType Name="User">
+          <AssociationSet Name="FK_tblOfferPrice_tblProduct" Association="WITSProjectModel.FK_tblOfferPrice_tblProduct">
+            <End Role="tblProduct" EntitySet="tblProduct" />
+            <End Role="tblOfferPrice" EntitySet="tblOfferPrice" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="tblAddress">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tblProducts" Relationship="WITSProjectModel.FK_tblProduct_User" FromRole="User" ToRole="tblProduct" />
-          </EntityType>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="AddressLine1" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="AddressLine2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblProduct" Relationship="WITSProjectModel.FK_tblProduct_tblAddress" FromRole="tblAddress" ToRole="tblProduct" />
+        </EntityType>
         <EntityType Name="tblOfferPrice">
           <Key>
             <PropertyRef Name="OfferId" />
@@ -137,14 +188,59 @@
           <Property Name="AddressID" Type="Int32" Nullable="false" />
           <Property Name="BidEndDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ImagePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="AddressLine1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="AddedByUserId" Type="Int32" />
-          <NavigationProperty Name="tblOfferPrices" Relationship="WITSProjectModel.FK_tblOfferPrice_tblProduct" FromRole="tblProduct" ToRole="tblOfferPrice" />
+          <Property Name="AddedByUserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblAddress" Relationship="WITSProjectModel.FK_tblProduct_tblAddress" FromRole="tblProduct" ToRole="tblAddress" />
+          <NavigationProperty Name="tblProduct1" Relationship="WITSProjectModel.FK_tblProduct_tblProduct" FromRole="tblProduct" ToRole="tblProduct1" />
+          <NavigationProperty Name="tblProduct2" Relationship="WITSProjectModel.FK_tblProduct_tblProduct" FromRole="tblProduct1" ToRole="tblProduct" />
           <NavigationProperty Name="User" Relationship="WITSProjectModel.FK_tblProduct_User" FromRole="tblProduct" ToRole="User" />
+          <NavigationProperty Name="tblOfferPrice" Relationship="WITSProjectModel.FK_tblOfferPrice_tblProduct" FromRole="tblProduct" ToRole="tblOfferPrice" />
         </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblProduct" Relationship="WITSProjectModel.FK_tblProduct_User" FromRole="User" ToRole="tblProduct" />
+        </EntityType>
+        <Association Name="FK_tblProduct_tblAddress">
+          <End Type="WITSProjectModel.tblAddress" Role="tblAddress" Multiplicity="1" />
+          <End Type="WITSProjectModel.tblProduct" Role="tblProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAddress">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblProduct">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblProduct_tblProduct">
+          <End Type="WITSProjectModel.tblProduct" Role="tblProduct" Multiplicity="1" />
+          <End Type="WITSProjectModel.tblProduct" Role="tblProduct1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblProduct">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblProduct1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblProduct_User">
+          <End Type="WITSProjectModel.User" Role="User" Multiplicity="1" />
+          <End Type="WITSProjectModel.tblProduct" Role="tblProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblProduct">
+              <PropertyRef Name="AddedByUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblOfferPrice_tblProduct">
           <End Type="WITSProjectModel.tblProduct" Role="tblProduct" Multiplicity="1" />
           <End Type="WITSProjectModel.tblOfferPrice" Role="tblOfferPrice" Multiplicity="*" />
@@ -157,35 +253,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblProduct_User">
-          <End Type="WITSProjectModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="WITSProjectModel.tblProduct" Role="tblProduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="tblProduct">
-              <PropertyRef Name="AddedByUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="WITSProjectModelStoreContainer" CdmEntityContainer="WITSProjectEntities">
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="WITSProjectModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <EntitySetMapping Name="tblAddress">
+            <EntityTypeMapping TypeName="WITSProjectModel.tblAddress">
+              <MappingFragment StoreEntitySet="tblAddress">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblOfferPrices">
+          <EntitySetMapping Name="tblOfferPrice">
             <EntityTypeMapping TypeName="WITSProjectModel.tblOfferPrice">
               <MappingFragment StoreEntitySet="tblOfferPrice">
                 <ScalarProperty Name="Product_Id" ColumnName="Product Id" />
@@ -196,14 +282,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblProducts">
+          <EntitySetMapping Name="tblProduct">
             <EntityTypeMapping TypeName="WITSProjectModel.tblProduct">
               <MappingFragment StoreEntitySet="tblProduct">
                 <ScalarProperty Name="AddedByUserId" ColumnName="AddedByUserId" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="BidEndDateTime" ColumnName="BidEndDateTime" />
                 <ScalarProperty Name="AddressID" ColumnName="AddressID" />
@@ -216,6 +298,16 @@
                 <ScalarProperty Name="Brand" ColumnName="Brand" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="WITSProjectModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -233,7 +325,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

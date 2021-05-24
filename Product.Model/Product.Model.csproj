@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressModel.cs" />
     <Compile Include="ProductModel.cs" />
     <Compile Include="ProductOfferModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

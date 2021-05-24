@@ -10,7 +10,7 @@
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/customStyle.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
+    <script src="~/Scripts/jquery-3.5.1.min.js"></script>
 
 </head>
 <body>
@@ -28,7 +28,7 @@
                         <li>@Html.ActionLink("About Us", "AboutUs", "Home")</li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li>   @Html.ActionLink("Add Product", "AddProduct", "Home")</li>
+                            <li>   @Html.ActionLink("Add Product", "AddProduct", "Product")</li>
                             <li id="userName">   Dear - @Session["CurrentUserName"] </li>
                             <li>
                                 @Html.ActionLink("Notification", "ShowNotification", "Home")

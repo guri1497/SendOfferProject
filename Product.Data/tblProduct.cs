@@ -17,7 +17,7 @@ namespace Product.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblProduct()
         {
-            this.tblOfferPrices = new HashSet<tblOfferPrice>();
+            this.tblOfferPrice = new HashSet<tblOfferPrice>();
         }
     
         public int ID { get; set; }
@@ -32,14 +32,15 @@ namespace Product.Data
         public int AddressID { get; set; }
         public System.DateTime BidEndDateTime { get; set; }
         public string ImagePath { get; set; }
-        public string AddressLine1 { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Country { get; set; }
-        public Nullable<int> AddedByUserId { get; set; }
+        public int AddedByUserId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblOfferPrice> tblOfferPrices { get; set; }
+        public virtual tblAddress tblAddress { get; set; }
+        public virtual tblProduct tblProduct1 { get; set; }
+        public virtual tblProduct tblProduct2 { get; set; }
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblOfferPrice> tblOfferPrice { get; set; }
+
+        
     }
 }

@@ -19,7 +19,7 @@ namespace Product.BL
 
         public IEnumerable<ProductOfferModel> Getoffer()  // get all offers
         {
-            List<tblOfferPrice> objTblOfferPrices = objWITSProjectEntities.tblOfferPrices.ToList();
+            List<tblOfferPrice> objTblOfferPrices = objWITSProjectEntities.tblOfferPrice.ToList();
             IEnumerable<ProductOfferModel> productOfferModel = objTblOfferPrices.Select(objProductOfferModel => new ProductOfferModel
             {
                 OfferId = objProductOfferModel.OfferId,
@@ -36,7 +36,7 @@ namespace Product.BL
 
         public ProductOfferModel GetofferByID(int ID)  // get all offers
         {
-            var objProductOfferModel = objWITSProjectEntities.tblOfferPrices.Where(p => p.Product_Id == ID).FirstOrDefault();
+            var objProductOfferModel = objWITSProjectEntities.tblOfferPrice.Where(p => p.Product_Id == ID).FirstOrDefault();
             ProductOfferModel productOfferModel = new ProductOfferModel()
             {
                 OfferId = objProductOfferModel.OfferId,
@@ -64,7 +64,7 @@ namespace Product.BL
                 //ReceiverName = objProductOfferModel.ReceiverName,
                 //ProductName = objProductOfferModel.ProductName
             };
-            objWITSProjectEntities.tblOfferPrices.Add(tblOffer);
+            objWITSProjectEntities.tblOfferPrice.Add(tblOffer);
             return objWITSProjectEntities.SaveChanges();
             
             
@@ -83,7 +83,7 @@ namespace Product.BL
                 //ReceiverName = objProductOfferModel.ReceiverName,
                 //ProductName = objProductOfferModel.ProductName
             };
-            objWITSProjectEntities.tblOfferPrices.Add(tblOffer);
+            objWITSProjectEntities.tblOfferPrice.Add(tblOffer);
             objWITSProjectEntities.SaveChanges();
         }
 

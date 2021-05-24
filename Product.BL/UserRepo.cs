@@ -23,7 +23,7 @@ namespace Product.BL
 
         public IEnumerable<UserModel> GetUser() // get all registerred users
         {
-            List<User> objUser = objWITSProjectEntities.Users.ToList();
+            List<User> objUser = objWITSProjectEntities.User.ToList();
             IEnumerable<UserModel> UserModel = objUser.Select(objUserModel => new UserModel
             {
                 Id = objUserModel.Id,
@@ -36,7 +36,7 @@ namespace Product.BL
 
         public UserModel GetUserById(int userId) // get user by id
         {
-            User user = objWITSProjectEntities.Users.Where(x => x.Id == userId).FirstOrDefault();
+            User user = objWITSProjectEntities.User.Where(x => x.Id == userId).FirstOrDefault();
             UserModel User = new UserModel()
             {
                 Id = user.Id,
@@ -55,7 +55,7 @@ namespace Product.BL
             //cUser = objWITSProjectEntities.Users.Where(x => x.Email == userModel.Email && x.Password == userModel.Password).FirstOrDefault().ToString();
             //User objUser = objWITSProjectEntities.Users.Where(x => x.Email == userModel.Email && x.Password == userModel.Password).FirstOrDefault();
             //return !isValid ? false : true;
-            List<User> users = objWITSProjectEntities.Users.ToList();
+            List<User> users = objWITSProjectEntities.User.ToList();
             IEnumerable<UserModel> cUser = users.Select(objUserModel => new UserModel 
             { 
                 Id=objUserModel.Id,
@@ -84,7 +84,7 @@ namespace Product.BL
             };
 
 
-            objWITSProjectEntities.Users.Add(objUser); //add new record into database
+            objWITSProjectEntities.User.Add(objUser); //add new record into database
             return objWITSProjectEntities.SaveChanges(); // save record in database
         }
     }

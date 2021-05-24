@@ -25,10 +25,7 @@ namespace SendOfferMVCApp.Controllers
             iProductOfferRepo = _iProductOfferRepo;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+      
         public ActionResult Index() // return the home screen index view
         {
             int cId = (int)Session["CurrentUserId"];
@@ -48,24 +45,24 @@ namespace SendOfferMVCApp.Controllers
         //    //ProductOfferModel productOfferModel = iProductOfferRepo.Getoffer().Where(x => x.OfferId == 0).FirstOrDefault();
         //}
 
-        public ActionResult AddProduct() // return add product view form
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult AddProduct(ProductModel product) // check model state and return same view with alert
-        {
-            string fileName = Path.GetFileNameWithoutExtension(product.ImageFile.FileName);
-            string fileExtension = Path.GetExtension(product.ImageFile.FileName);
-            fileName = fileName + DateTime.Now.ToString("yymmssfff") + fileExtension;
-            product.ImagePath = "~/Image/" + fileName;
-            fileName = Path.Combine(Server.MapPath("~/Image"), fileName);
-            product.ImageFile.SaveAs(fileName);
-            iProductRepo.AddProduct(product);
-            ViewBag.AddProductConfirmation = "Record added Succefully.";
-            ModelState.Clear();
-            return View();
-        }        
+        //public ActionResult AddProduct() // return add product view form
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public ActionResult AddProduct(ProductModel product) // check model state and return same view with alert
+        //{
+        //    string fileName = Path.GetFileNameWithoutExtension(product.ImageFile.FileName);
+        //    string fileExtension = Path.GetExtension(product.ImageFile.FileName);
+        //    fileName = fileName + DateTime.Now.ToString("yymmssfff") + fileExtension;
+        //    product.ImagePath = "~/Image/" + fileName;
+        //    fileName = Path.Combine(Server.MapPath("~/Image"), fileName);
+        //    product.ImageFile.SaveAs(fileName);
+        //    iProductRepo.AddProduct(product);
+        //    ViewBag.AddProductConfirmation = "Record added Succefully.";
+        //    ModelState.Clear();
+        //    return View();
+        //}        
 
         //public ActionResult OfferPopup()
         //{

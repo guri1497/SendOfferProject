@@ -25,8 +25,9 @@ namespace Product.Data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<tblOfferPrice> tblOfferPrices { get; set; }
-        public virtual DbSet<tblProduct> tblProducts { get; set; }
+        public virtual DbSet<tblAddress> tblAddress { get; set; }
+        public virtual DbSet<tblOfferPrice> tblOfferPrice { get; set; }
+        public virtual DbSet<tblProduct> tblProduct { get; set; }
+        public virtual DbSet<User> User { get; set; }
     }
 }
