@@ -42,12 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAddressRepo.cs" />
     <Compile Include="IProductOfferRepo.cs" />
     <Compile Include="IProductRepo.cs" />
     <Compile Include="IUserRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Product.Data\Product.Data.csproj">
+      <Project>{70A20552-FA8F-4957-BAAF-DB782BD395C2}</Project>
+      <Name>Product.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Product.Model\Product.Model.csproj">
       <Project>{af908d9d-7dbb-48b6-b5c1-418a50df0cde}</Project>
       <Name>Product.Model</Name>

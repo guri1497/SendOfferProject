@@ -4,12 +4,14 @@ using Product.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Product.Data;
 
 namespace Product.BL
 {
     public class ProductRepo : IProductRepo
     {
         WITSProjectEntities objWITSProjectEntities; // database instance create
+        IAddressRepo iAddressRepo;
         public ProductRepo() // ctor define
         {
             objWITSProjectEntities = new WITSProjectEntities();
@@ -17,8 +19,20 @@ namespace Product.BL
 
         public void SaveProduct(ProductModel objProductModel) // save category
         {
-            Product.Data.tblProduct objProduct = new tblProduct() // database class instance
+            tblAddress objtblAddress = new tblAddress()
             {
+                Id = objProductModel.Address.Id,
+                AddressLine1 = objProductModel.Address.AddressLine1,
+                AddressLine2 = objProductModel.Address.AddressLine2,
+                City = objProductModel.Address.City,
+                State = objProductModel.Address.State,
+                Country = objProductModel.Address.Country
+            };
+           
+
+            tblProduct objProduct = new tblProduct() // database class instance
+            {
+                ID = objProductModel.Id,
                 Name = objProductModel.Name, // assign model property to daatabase class
                 Brand = objProductModel.Brand,
                 ModelNo = objProductModel.ModelNo,
@@ -31,9 +45,7 @@ namespace Product.BL
                 BidEndDateTime = Convert.ToDateTime(objProductModel.BidDateTime),
                 ImagePath = objProductModel.ImagePath,
                 AddedByUserId = (int)objProductModel.AddedByUserId,
-                //tblAddress = objProductModel.Address
-
-
+                tblAddress = objtblAddress
             };
             objWITSProjectEntities.tblProduct.Add(objProduct); // add record into database
             objWITSProjectEntities.SaveChanges(); // save the record into table
@@ -79,10 +91,16 @@ namespace Product.BL
                 BuyNowPrice = (int)objProductModel.BuyNowPrice,
                 BidPrice = (int)objProductModel.BidPrice,
                 Quantity = objProductModel.Quantity,
-                //AddressId = objProductModel.AddressID,
+                AddressId = objProductModel.AddressID,
                 BidDateTime = objProductModel.BidEndDateTime.ToString("yyy/MM/dd"),
                 ImagePath = objProductModel.ImagePath,
                 AddedByUserId = objProductModel.AddedByUserId,
+                AddressLine1 = objProductModel.tblAddress.AddressLine1,
+                AddressLine2 = objProductModel.tblAddress.AddressLine2,
+                City = objProductModel.tblAddress.City,
+                State = objProductModel.tblAddress.State,
+                Country = objProductModel.tblAddress.Country
+                
             });
             return listOfProduct; // gives list of the products
         }

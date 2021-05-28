@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AddressLine1" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="AddressLine2" Type="varchar" MaxLength="500" />
           <Property Name="City" Type="varchar" MaxLength="100" Nullable="false" />
@@ -77,18 +77,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblProduct_tblProduct">
-          <End Role="tblProduct" Type="Self.tblProduct" Multiplicity="1" />
-          <End Role="tblProduct1" Type="Self.tblProduct" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="tblProduct">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="tblProduct1">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tblProduct_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="tblProduct" Type="Self.tblProduct" Multiplicity="*" />
@@ -113,10 +101,6 @@
           <AssociationSet Name="FK_tblProduct_tblAddress" Association="Self.FK_tblProduct_tblAddress">
             <End Role="tblAddress" EntitySet="tblAddress" />
             <End Role="tblProduct" EntitySet="tblProduct" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProduct_tblProduct" Association="Self.FK_tblProduct_tblProduct">
-            <End Role="tblProduct" EntitySet="tblProduct" />
-            <End Role="tblProduct1" EntitySet="tblProduct" />
           </AssociationSet>
           <AssociationSet Name="FK_tblProduct_User" Association="Self.FK_tblProduct_User">
             <End Role="User" EntitySet="User" />

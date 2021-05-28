@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using Product.Data;
 
 namespace Product.Model
 {
@@ -42,21 +43,23 @@ namespace Product.Model
         public String BidDateTime { get; set; }
         [Display(Name = "Image")]
         public string ImagePath { get; set; }
-        public HttpPostedFileBase ImageFile { get; set; }
+        public string ImageFile { get; set; }
+
+        //public HttpPostedFileBase ImageFile { get; set; }
         //[Required]
-        //[Display(Name = "Address Line 1")]
-        //public string AddressLine1 { get; set; }
-        //[Display(Name = "Address Line 2")]
-        //public string AddressLine2 { get; set; }
-        //[Required]
-        //[Display(Name = "City")]
-        //public string City { get; set; }
-        //[Required]
-        //[Display(Name = "State")]
-        //public string State { get; set; }
-        //[Required]
-        //[Display(Name = "Country")]
-        //public string Country{ get; set; }
+        [Display(Name = "Address Line 1")]
+        public string AddressLine1 { get; set; }
+        [Display(Name = "Address Line 2")]
+        public string AddressLine2 { get; set; }
+        [Required]
+        [Display(Name = "City")]
+        public string City { get; set; }
+        [Required]
+        [Display(Name = "State")]
+        public string State { get; set; }
+        [Required]
+        [Display(Name = "Country")]
+        public string Country { get; set; }
         public Nullable<int> AddedByUserId { get; set; }
         //public string AddedByUserName { get; set; }
         //public virtual IEnumerable<UserModel> UserModels { get; set; }

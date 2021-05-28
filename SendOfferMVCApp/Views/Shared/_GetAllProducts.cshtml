@@ -16,7 +16,7 @@
                         <h5>@item.Name</h5>
                         <span class="productId" style="display:none">@item.Id</span>
                         <div class="font-weight-normal" style="font-size:13px;">
-                            <label class="text-muted mb-0">Pickup Location: </label> @*@item.AddressLine1 @item.City @item.State @item.Country*@
+                            <label class="text-muted mb-0">Pickup Location: </label> @item.AddressLine1 @item.City @item.State @item.Country
                         </div>
                         <div class="font-weight-normal" style="font-size:13px;">
                             <label class="text-muted mb-0 mt-1">Time Remaining: </label>
@@ -41,6 +41,9 @@
                             <span style="font-size:25px;font-weight:600" class="text-muted">Send Offer</span>
                             <div>
                                 <button type="button" class="btn btn-primary btn-sm float-right mt-n4 testSendOffer" data-id="@item.Id">Offer</button>
+                                
+                                <div style="border:2px solid green;" data-id="@item.Id" class="testingDiv"></div>
+
                             </div>
 
 
@@ -52,21 +55,11 @@
     </div>
 
 </div>
-<div style="border:2px solid green;" class="testingDiv"></div>
 
 <style>
-    /*.modal {
-            position: absolute;
-            left: 255px;
-            top: 30px;
-            overflow: auto;
-            overflow-y: auto;
-        }
-    */
+    
     .btn {
-        /*width: 80px;
-            height: 27px;*/
-        border-radius: 0;
+          border-radius: 0;
     }
 
     .bgSeagreen {
@@ -143,12 +136,12 @@
 
 
     $(".testSendOffer").click(function () {
-
+        var currentProductId = $(this).attr('data-id')
         $.ajax({
             type: 'GET',
             url: '/Home/TestingAction',
             data: {
-                ID: $(this).attr('data-id')
+                ID: currentProductId
             }
         })
             .done(function (response) {

@@ -112,6 +112,7 @@
                     @Html.ValidationMessageFor(model => model.Address.AddressLine2, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Address.City, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -119,6 +120,7 @@
                     @Html.ValidationMessageFor(model => model.Address.City, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Address.State, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -126,6 +128,7 @@
                     @Html.ValidationMessageFor(model => model.Address.State, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Address.Country, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -134,16 +137,21 @@
                 </div>
             </div>
 
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @*<input type="file" value="Choose File" name="ImageFile" />*@
-                    @Html.TextBoxFor(model => model.ImagePath, new { type = "file", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger" })
-                </div>
+        <div class="form-group">
+            <div class="col-md-8">
+                <label>Image</label>
+                <input type="hidden" id="ImagePath" name="ImagePath" />
+                <input class="form-control" id="btnImageUpload" name="ImageFile" type="file" accept=".png, .jpg" />
             </div>
-
+            <div  class="col-md-4">
+                <div class="thumb">
+                    <img class="img-thumbnail img-fluid" id="productImage" />
+                </div>
+            </div>        
+        </div>
+            
+      
+           
             <div class="form-group" style="display:none;">
                 @Html.LabelFor(model => model.AddedByUserId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -151,7 +159,6 @@
                     @Html.ValidationMessageFor(model => model.AddedByUserId, "", new { @class = "text-danger" })
                 </div>
             </div>
-
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -162,8 +169,6 @@
         </div>
     </form>  
      
-
-    
     @if (ViewBag.AddProductConfirmation != null)
     {
         <script type="text/javascript">
@@ -182,16 +187,51 @@
 
 <script type="text/javascript">
 
+    $("#btnImageUpload").change(function () {
+		var element = this;
+
+		var formData = new FormData();
+
+		var totalFiles = element.files.length;
+
+		for (var i = 0; i < totalFiles; i++) {
+			var file = element.files[i];
+			formData.append("Photo", file);
+		}
+
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("UploadImage", "Shared")',
+			dataType: 'json',
+			data: formData,
+			contentType: false,
+			processData: false
+		})
+        .done(function (response) {
+        	console.log(response);
+
+        	if(response.Success)
+        	{
+        		$("#ImagePath").val(response.ImagePath);
+        		$("#productImage").attr("src", response.ImagePath);
+        	}
+        })
+        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert("FAIL");
+        });
+	});
+
     $("#btnAddProduct").click(function () {
+   
         $.ajax({
             type: 'POST',
             url: '/Product/AddProduct',
             data: $("#formAddProduct").serialize()
         })
             .done(function (response) {
-                //debugger;
-
-                alert("done");
+                alert("Record Added");
+                $("#formAddProduct").empty();
+                window.location = "/Home/Index";
             })
             .fail(function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("Fail");

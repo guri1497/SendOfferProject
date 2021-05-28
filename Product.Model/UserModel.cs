@@ -19,13 +19,16 @@ namespace Product.Model
 
         [Display(Name = "Password")]
         public string Password { get; set; }
+
         [Required(ErrorMessage = "Please enter confirm password.")]
         [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "Password and Confirmation Password must match.")]
         public string ConfirmPassword { get; set; }
+        
         [Required]
         [EmailAddress(ErrorMessage = "Please enter valid email address.")]
         [Display(Name = "Email  ")]
+        
         public string Email { get; set; }
         public virtual IEnumerable<ProductModel> ProductModels { get; set; }
         public virtual IEnumerable<ProductOfferModel> ProductOfferModels { get; set; }

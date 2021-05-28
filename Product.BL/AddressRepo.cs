@@ -1,31 +1,54 @@
 ﻿using Product.Data;
+using Product.IBL;
 using Product.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Product.BL
 {
-    public class AddressRepo
+    public class AddressRepo : IAddressRepo
     {
-        WITSProjectEntities objWITSProjectEntities; // database instance create
-        public void SaveAddress(AddressModel addressModel) // save category
+        WITSProjectEntities objWITSProjectEntities; // database instance create\
+        public AddressRepo() // ctor define
         {
+            objWITSProjectEntities = new WITSProjectEntities();
+        }
 
-            Product.Data.tblAddress address = new tblAddress()
+        public int SaveAddress(AddressModel addressModel) // save category
+        {
+            tblAddress address = new tblAddress()
             {
+                Id = addressModel.Id,
                 AddressLine1 = addressModel.AddressLine1,
                 AddressLine2 = addressModel.AddressLine2,
                 City = addressModel.City,
                 State = addressModel.State,
                 Country = addressModel.Country
             };
-                objWITSProjectEntities.tblAddress.Add(address);
-                objWITSProjectEntities.SaveChanges();
+            objWITSProjectEntities.tblAddress.Add(address);
+            objWITSProjectEntities.SaveChanges();
+            return address.Id;
+        }
+
+        public AddressModel GetAddressByID(int id)
+        {
+            tblAddress tblAddress = objWITSProjectEntities.tblAddress.Find(id);
+
+            return new AddressModel()
+            {
+                Id = tblAddress.Id,
+                AddressLine1 = tblAddress.AddressLine1,
+                AddressLine2 = tblAddress.AddressLine2,
+                City = tblAddress.City,
+                State = tblAddress.State,
+                Country = tblAddress.Country
+            };
         }
     }
 }
-    
+
 
