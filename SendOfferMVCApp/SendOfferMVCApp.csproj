@@ -337,13 +337,11 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_GetAllProducts.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\PartialView\_testingView.cshtml" />
     <Content Include="Views\Shared\_NewLayout.cshtml" />
     <Content Include="Views\Home\ContactUs.cshtml" />
     <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Scripts\moment.min.js.map" />
     <Content Include="Scripts\moment-with-locales.min.js.map" />
-    <Content Include="Views\Home\Notification.cshtml" />
     <Content Include="Views\Home\ShowNotification.cshtml" />
     <Content Include="Views\Product\AddProduct.cshtml" />
     <Content Include="Views\Product\AddressSave.cshtml" />
@@ -352,6 +350,7 @@
   <ItemGroup>
     <Folder Include="Content\images\" />
     <Folder Include="Image\" />
+    <Folder Include="Views\PartialView\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -62,42 +62,6 @@ namespace SendOfferMVCApp.Controllers
             return View();
         }
 
-       
-        //public ActionResult Testing(int id) // this is dummy method
-        //{
-        //    return PartialView("~/Views/PartialView/_OfferPopup.cshtml");
-        //}
-
-        //[HttpGet]
-        //public ActionResult Notification(int Id) // notification menu content
-        //{
-        //    int senderId = (int)Session["CurrentUserId"]; // get current user for sender id
-        //    string senderName = Session["CurrentUserName"].ToString();
-        //    ProductModel productModel = iProductRepo.GetProductById(Id); // get current product 
-        //    int receiverId = (int)productModel.AddedByUserId; // get reciever id
-        //    //string receiverName = productModel.AddedByUserName;
-        //    string productName = productModel.Name;
-             
-        //    ProductOfferModel productOfferModel = new ProductOfferModel()
-        //    {
-        //        ProductId = Id,
-        //        SenderId = senderId,
-        //        ReceiverId = receiverId,
-        //        ProductName = productName,
-        //        SenderName = senderName,
-        //        //ReceiverName = receiverName
-        //    };
-        //    return PartialView("~/Views/Home/Notification.cshtml", productOfferModel);
-        //}
-
-        //[HttpPost]
-        //public ActionResult Notification(ProductOfferModel productOfferModel) // demo
-        //{
-        //    int isValid = iProductOfferRepo.SaveOfferPrice(productOfferModel);
-        //    ViewBag.OfferSendConfirmation = JavaScript("alert('Your Offer is send succefully')");
-        //    return RedirectToAction("Index", "Home");
-        //}
-
         public ActionResult ShowNotification()// showing to user
         {
             int currentUserId = (int)Session["CurrentUserId"]; // getting current user id 
@@ -120,12 +84,35 @@ namespace SendOfferMVCApp.Controllers
                              SenderName = um.Name,
                              ProductName = pm.Name,
                          }).ToList(); // getting all neccesory data from diffrent tables
-
-
-
             return View("~/Views/Home/ShowNotification.cshtml",model);
         }
 
+        
+        public string TestingAction(int OfferID, string OfferStatus)
+        {
+            var offerStatus = "";
+            if(OfferStatus== "true")
+            {
+                offerStatus = "Congratulations,You Accepted the buyer offer.Your Product is sold now.";
+                ProductOfferModel productOfferModel = iProductOfferRepo.GetofferByID(OfferID);
+                ProductOfferModel productOfferModel1 = new ProductOfferModel()
+                {
+                    OfferId = productOfferModel.OfferId,
+                    OfferPrice = productOfferModel.OfferPrice,
+                    SenderId = productOfferModel.SenderId,
+                    ReceiverId = productOfferModel.ReceiverId,
+                    ProductId = productOfferModel.ProductId,
+                    Status = offerStatus,
+                    Message = productOfferModel.Message
+                };
+                
+            }
+            else
+            {
+                offerStatus = "You Reject this offer.";
+            }
+            return offerStatus;
+        }
         
     }
 }

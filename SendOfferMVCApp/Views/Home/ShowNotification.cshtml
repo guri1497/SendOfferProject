@@ -14,8 +14,8 @@
               @item.SenderName is offered $@item.OfferPrice for your @item.ProductName.
             </div>
             <div class="col-3">
-                <button class="btn btn-success btnAccept" dataID="@item.OfferId">Accept</button>
-                <button class="btn btn-danger btnReject" dataID="@item.OfferId">Reject</button>
+                <button class="btn btn-success btnOffer" dataID="@item.OfferId" value="true">Accept</button>
+                <button class="btn btn-danger btnOffer" dataID="@item.OfferId" value="false">Reject</button>
             </div>
         </div>
         <hr />
@@ -24,8 +24,27 @@
 
 <script>
 
-    $(".btnAccept").click(function () {
-
+    $(".btnOffer").click(function () {
+        //$(this).alert("Congratulations,You Accepted the buyer offer.Your Product is sold now.");
+        var currentBtn = $(this);
+        var currentOfferID = $(this).attr('dataID'); // selecting current product id
+        var offerStatus = $(this).val();
+        console.log(offerStatus);
+        $.ajax({
+            type: 'GET', // method type
+            url: '/Home/TestingAction', // send data to the url
+            data: {
+                OfferID : currentOfferID, // current product id
+                OfferStatus : offerStatus
+            }
+        })
+            .done(function (response) { // recieve send offer code
+                alert(response);
+                currentBtn.prop('disabled', true);
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) { // if code fail
+                alert("Fail");
+            });
 
     });
 

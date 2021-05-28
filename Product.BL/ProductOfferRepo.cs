@@ -59,5 +59,20 @@ namespace Product.BL
             objWITSProjectEntities.SaveChanges();
         }
 
+        public void UpdateOffer(ProductOfferModel objProductOfferModel) // save offer data and returns int value
+        {
+            tblOfferPrice tblOffer = new tblOfferPrice()
+            {
+                OfferId = objProductOfferModel.OfferId,
+                OfferPrice = objProductOfferModel.OfferPrice,
+                SenderId = objProductOfferModel.SenderId,
+                ReceiverId = objProductOfferModel.ReceiverId,
+                Product_Id = objProductOfferModel.ProductId,
+            };
+            objWITSProjectEntities.Entry(tblOffer).State = System.Data.Entity.EntityState.Modified;
+            //objWITSProjectEntities.tblOfferPrice.Add(tblOffer);
+            objWITSProjectEntities.SaveChanges();
+        }
+
     }
 }
