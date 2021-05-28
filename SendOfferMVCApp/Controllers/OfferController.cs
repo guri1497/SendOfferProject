@@ -26,8 +26,11 @@ namespace SendOfferMVCApp.Controllers
         [HttpGet]
         public ActionResult SendOffer(int ID)
         {
-            var model = new ShowOfferModel();
-            model.ProductId = ID;
+            ProductModel productModel = iProductRepo.GetProductById(ID);
+            ShowOfferModel model = new ShowOfferModel() {
+                ProductId = productModel.Id,
+                RecieverID = (int)productModel.AddedByUserId,
+        };
             return PartialView(model);
         }
 
@@ -35,13 +38,16 @@ namespace SendOfferMVCApp.Controllers
         public ActionResult SendOffer(ShowOfferModel showOfferModel)
         {
             var product = iProductRepo.GetProductById(showOfferModel.ProductId);
-            ProductOfferModel newSOM = new ProductOfferModel();
-            newSOM.OfferPrice = showOfferModel.OfferPrice;
-            newSOM.ProductId = product.Id;
-            newSOM.SenderId = (int)Session["CurrentUserId"];
-            newSOM.ReceiverId = (int)product.AddedByUserId;
-            iProductOfferRepo.SaveOffer(newSOM);
-            return RedirectToAction("Index");
+            ProductOfferModel productOfferModel = new ProductOfferModel()
+            {
+                OfferId = showOfferModel.ID,
+                OfferPrice = showOfferModel.OfferPrice,
+                SenderId = showOfferModel.SenderID,
+                ReceiverId = showOfferModel.RecieverID,
+                ProductId = showOfferModel.ProductId
+            };
+            iProductOfferRepo.SaveOffer(productOfferModel);
+            return RedirectToAction("Index","Home");
         }
     }
 }

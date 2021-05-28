@@ -9,9 +9,8 @@ namespace Product.IBL
 {
     public interface IProductOfferRepo
     {
-        int SaveOfferPrice(ProductOfferModel objProductOfferModel);
+        //int SaveOfferPrice(ProductOfferModel objProductOfferModel);
         IEnumerable<ProductOfferModel> Getoffer();
-
         void SaveOffer(ProductOfferModel objProductOfferModel);
         ProductOfferModel GetofferByID(int ID);
     }

@@ -1,21 +1,19 @@
 ﻿@model SendOfferMVCApp.Model.ShowOfferModel
 
-@{
-    ViewBag.Title = "TestingAction";
-}
-
-
 <div class="card rounded-0" style="width:241px;">
     <form id="offerForm">
         <div class="card-header align-content-center bgColor rounded-0">
             <h4 class="card-title text-center text-white">Your Offer</h4>
             <input type="number" style="height:55px;width:190px;border:none;" class="text-center mb-3" placeholder="$" name="OfferPrice" />
             <input type="number" name="ProductId" style="display:none" value="@Model.ProductId" />
+            <input type="number" value="@Model.RecieverID" name="RecieverID" style="display:none" />
+            <input type="number" value="@Session["CurrentUserId"]" name="SenderID" style="display:none" />
+            
         </div>
         <div class="card-body text-center">
 
             <a class="txtColor" id="offerMessage"><i class="fa fa-plus-square-o txtColor" aria-hidden="true"></i>Add Message to Seller</a>
-            <input type="text" id="offerMessageTextBox" class="form-control" style="display:none" />
+            <input type="text" id="offerMessageTextBox" name="Message" class="form-control" style="display:none" />
 
             <p class="card-text text-center mt-3">By clicking Submit Offer, you are agreeing to and entering into a legally binding contract to purchase the item from the seller at your Offer Price.</p>
             <button id="btnSendOffer" class="btn btn-primary bgColor rounded-0 my-3">Submit Offer</button>
@@ -32,16 +30,15 @@
     });
 
     $("#btnSendOffer").click(function () {
-
+      
         $.ajax({
             type: 'POST',
-            url: '/Home/TestingAction',
+            url: '/Offer/SendOffer',
             data: $("#offerForm").serialize()
         })
-            .done(function (response) {
-                //debugger;
-
-                alert("done");
+            .done(function(response){  
+                alert("Offer Send Succefully.");
+                console.log("done");
             })
             .fail(function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("Fail");

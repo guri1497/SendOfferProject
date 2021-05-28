@@ -14,10 +14,19 @@
               @item.SenderName is offered $@item.OfferPrice for your @item.ProductName.
             </div>
             <div class="col-3">
-                <button class="btn btn-success">Accept</button>
-                <button class="btn btn-danger">Reject</button>
+                <button class="btn btn-success btnAccept" dataID="@item.OfferId">Accept</button>
+                <button class="btn btn-danger btnReject" dataID="@item.OfferId">Reject</button>
             </div>
         </div>
         <hr />
  }
 </div>
+
+<script>
+
+    $(".btnAccept").click(function () {
+
+
+    });
+
+</script>

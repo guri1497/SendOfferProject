@@ -26,10 +26,7 @@ namespace Product.BL
                 OfferPrice = (int)objProductOfferModel.OfferPrice,
                 SenderId = objProductOfferModel.SenderId,
                 ReceiverId = objProductOfferModel.ReceiverId,
-                ProductId = objProductOfferModel.Product_Id,
-                //SenderName = objProductOfferModel.SenderName,
-                //ReceiverName = objProductOfferModel.ReceiverName,
-                //ProductName = objProductOfferModel.ProductName
+                ProductId = objProductOfferModel.Product_Id
             });
             return productOfferModel;
         }
@@ -48,10 +45,7 @@ namespace Product.BL
            return productOfferModel;
         }
 
-       
-
-
-        public int SaveOfferPrice(ProductOfferModel objProductOfferModel) // save offer data and returns int value
+        public void SaveOffer(ProductOfferModel objProductOfferModel) // save offer data and returns int value
         {
             tblOfferPrice tblOffer = new tblOfferPrice()
             {
@@ -60,28 +54,6 @@ namespace Product.BL
                 SenderId = objProductOfferModel.SenderId,
                 ReceiverId = objProductOfferModel.ReceiverId,
                 Product_Id = objProductOfferModel.ProductId,
-                //SenderName = objProductOfferModel.SenderName,
-                //ReceiverName = objProductOfferModel.ReceiverName,
-                //ProductName = objProductOfferModel.ProductName
-            };
-            objWITSProjectEntities.tblOfferPrice.Add(tblOffer);
-            return objWITSProjectEntities.SaveChanges();
-            
-            
-        }
-
-        public void SaveOffer(ProductOfferModel objProductOfferModel) // save offer data and returns int value
-        {
-            tblOfferPrice tblOffer = new tblOfferPrice()
-            {
-                //OfferId = objProductOfferModel.OfferId,
-                OfferPrice = objProductOfferModel.OfferPrice,
-                SenderId = objProductOfferModel.SenderId,
-                ReceiverId = objProductOfferModel.ReceiverId,
-                Product_Id = objProductOfferModel.ProductId,
-                //SenderName = objProductOfferModel.SenderName,
-                //ReceiverName = objProductOfferModel.ReceiverName,
-                //ProductName = objProductOfferModel.ProductName
             };
             objWITSProjectEntities.tblOfferPrice.Add(tblOffer);
             objWITSProjectEntities.SaveChanges();

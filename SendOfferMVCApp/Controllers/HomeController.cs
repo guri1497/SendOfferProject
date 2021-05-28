@@ -102,8 +102,12 @@ namespace SendOfferMVCApp.Controllers
         {
             int currentUserId = (int)Session["CurrentUserId"]; // getting current user id 
             IEnumerable<ProductOfferModel> productOfferModels = iProductOfferRepo.Getoffer().Where(s => s.SenderId != currentUserId).ToList();  // get all product offer list
+            
             IEnumerable<UserModel> userModels = iUserRepo.GetUser().ToList();
+            
             IEnumerable<ProductModel> productModels = iProductRepo.GetAllProduct().ToList();
+            
+            
             var model = (from pom in productOfferModels
                          join um in userModels
                          on pom.SenderId equals um.Id
@@ -116,6 +120,9 @@ namespace SendOfferMVCApp.Controllers
                              SenderName = um.Name,
                              ProductName = pm.Name,
                          }).ToList(); // getting all neccesory data from diffrent tables
+
+
+
             return View("~/Views/Home/ShowNotification.cshtml",model);
         }
 
