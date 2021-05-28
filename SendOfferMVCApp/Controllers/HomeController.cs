@@ -25,7 +25,6 @@ namespace SendOfferMVCApp.Controllers
             iProductOfferRepo = _iProductOfferRepo;
         }
 
-      
         public ActionResult Index() // return the home screen index view
         {
             int cId = (int)Session["CurrentUserId"];
@@ -44,25 +43,7 @@ namespace SendOfferMVCApp.Controllers
         //{
         //    //ProductOfferModel productOfferModel = iProductOfferRepo.Getoffer().Where(x => x.OfferId == 0).FirstOrDefault();
         //}
-
-        //public ActionResult AddProduct() // return add product view form
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public ActionResult AddProduct(ProductModel product) // check model state and return same view with alert
-        //{
-        //    string fileName = Path.GetFileNameWithoutExtension(product.ImageFile.FileName);
-        //    string fileExtension = Path.GetExtension(product.ImageFile.FileName);
-        //    fileName = fileName + DateTime.Now.ToString("yymmssfff") + fileExtension;
-        //    product.ImagePath = "~/Image/" + fileName;
-        //    fileName = Path.Combine(Server.MapPath("~/Image"), fileName);
-        //    product.ImageFile.SaveAs(fileName);
-        //    iProductRepo.AddProduct(product);
-        //    ViewBag.AddProductConfirmation = "Record added Succefully.";
-        //    ModelState.Clear();
-        //    return View();
-        //}        
+        
 
         //public ActionResult OfferPopup()
         //{
@@ -138,25 +119,6 @@ namespace SendOfferMVCApp.Controllers
             return View("~/Views/Home/ShowNotification.cshtml",model);
         }
 
-        [HttpGet]
-        public ActionResult TestingAction(int ID)
-        {
-            var model = new ShowOfferModel();
-            model.ProductId = ID;
-            return PartialView(model);
-        }
-
-        [HttpPost]
-        public ActionResult TestingAction(ShowOfferModel showOfferModel)
-        {
-            var product = iProductRepo.GetProductById(showOfferModel.ProductId);
-            ProductOfferModel newSOM = new ProductOfferModel();
-            newSOM.OfferPrice = showOfferModel.OfferPrice;
-            newSOM.ProductId = product.Id;
-            newSOM.SenderId = (int)Session["CurrentUserId"];
-            newSOM.ReceiverId = (int)product.AddedByUserId;
-            iProductOfferRepo.SaveOffer(newSOM);
-            return RedirectToAction("Index");
-        }
+        
     }
 }

@@ -18,6 +18,7 @@
                         <div class="font-weight-normal" style="font-size:13px;">
                             <label class="text-muted mb-0">Pickup Location: </label> @item.AddressLine1 @item.City @item.State @item.Country
                         </div>
+
                         <div class="font-weight-normal" style="font-size:13px;">
                             <label class="text-muted mb-0 mt-1">Time Remaining: </label>
                             <span class="expiry-date" style="display:none;"> @item.BidDateTime</span>
@@ -40,9 +41,9 @@
                         <div>
                             <span style="font-size:25px;font-weight:600" class="text-muted">Send Offer</span>
                             <div>
-                                <button type="button" class="btn btn-primary btn-sm float-right mt-n4 testSendOffer" data-id="@item.Id">Offer</button>
+                                <button type="button" class="btn btn-primary btn-sm float-right mt-n4 testSendOffer" dataID="@item.Id">Offer</button>
                                 
-                                <div style="border:2px solid green;" data-id="@item.Id" class="testingDiv"></div>
+                                <div style="display:none" dataID="@item.Id" class="testingDiv"></div>
 
                             </div>
 
@@ -57,16 +58,21 @@
 </div>
 
 <style>
-    
+    .testingDiv{
+        position:absolute;
+        top:10px;
+        left:270px;
+        z-index:1;
+    }
     .btn {
           border-radius: 0;
     }
 
-    .bgSeagreen {
+    .bgColor {
         background-color: #e74c3c;
     }
 
-    .txtSeagreen {
+    .txtColor {
         color: #e74c3c;
     }
 </style>
@@ -135,22 +141,21 @@
     var interval = setInterval(getRemainingTime, 1000); // set interval for call auto function
 
 
-    $(".testSendOffer").click(function () {
-        var currentProductId = $(this).attr('data-id')
+    $(".testSendOffer").click(function () { // set click event on Send Offer Button
+        var cBtn = $(this);
+        var currentProductId = $(this).attr('dataID') // selecting current product id
         $.ajax({
-            type: 'GET',
-            url: '/Home/TestingAction',
+            type: 'GET', // method type
+            url: '/Offer/SendOffer', // send data to the url
             data: {
-                ID: currentProductId
+                ID: currentProductId // current product id
             }
         })
-            .done(function (response) {
-                //debugger;
-                $(".testingDiv").html(response);
+            .done(function (response) { // recieve send offer code
+                cBtn.siblings().toggle().html(response); // show hide offer box
 
-                alert(response);
             })
-            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) { // if code fail
                 alert("Fail");
             });
     });

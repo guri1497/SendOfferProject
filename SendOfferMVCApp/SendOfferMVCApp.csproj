@@ -160,6 +160,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OfferController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Global.asax.cs">
@@ -344,9 +345,9 @@
     <Content Include="Scripts\moment-with-locales.min.js.map" />
     <Content Include="Views\Home\Notification.cshtml" />
     <Content Include="Views\Home\ShowNotification.cshtml" />
-    <Content Include="Views\Home\TestingAction.cshtml" />
     <Content Include="Views\Product\AddProduct.cshtml" />
     <Content Include="Views\Product\AddressSave.cshtml" />
+    <Content Include="Views\Offer\SendOffer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\images\" />
