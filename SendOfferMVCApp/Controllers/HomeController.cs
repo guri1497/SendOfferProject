@@ -27,16 +27,16 @@ namespace SendOfferMVCApp.Controllers
 
         public ActionResult Index() // return the home screen index view
         {
-            int cId = (int)Session["CurrentUserId"];
-            IEnumerable<ProductModel> listOfProduct = iProductRepo.GetAllProduct().Where(x => x.AddedByUserId != cId).ToList(); // get all product data
-            return View(listOfProduct);
+            //int cId = (int)Session["CurrentUserId"];
+            //IEnumerable<ProductModel> listOfProduct = iProductRepo.GetAllProduct().Where(x => x.AddedByUserId != cId).ToList(); // get all product data
+            return View();
         }
 
-        public ActionResult GetAllProducts() // get all product data from database and return partial view
-        {
-            IEnumerable<ProductModel> listOfProduct = iProductRepo.GetAllProduct();
-            return PartialView("~/Views/Shared/_GetAllProducts.cshtml",listOfProduct);
-        }
+        //public ActionResult GetAllProducts() // get all product data from database and return partial view
+        //{
+        //    IEnumerable<ProductModel> listOfProduct = iProductRepo.GetAllProduct();
+        //    return PartialView("~/Views/Shared/_GetAllProducts.cshtml",listOfProduct);
+        //}
 
         //[HttpPost]
         //public void GetOfferDetails(ProductOfferModel productOfferModel)
@@ -83,35 +83,9 @@ namespace SendOfferMVCApp.Controllers
                              OfferPrice = pom.OfferPrice,
                              SenderName = um.Name,
                              ProductName = pm.Name,
-                         }).ToList(); // getting all neccesory data from diffrent tables
+                         }).OrderByDescending(p=> p.OfferId).ToList(); // getting all neccesory data from diffrent tables
+             
             return View("~/Views/Home/ShowNotification.cshtml",model);
-        }
-
-        
-        public string TestingAction(int OfferID, string OfferStatus)
-        {
-            var offerStatus = "";
-            if(OfferStatus== "true")
-            {
-                offerStatus = "Congratulations,You Accepted the buyer offer.Your Product is sold now.";
-                ProductOfferModel productOfferModel = iProductOfferRepo.GetofferByID(OfferID);
-                ProductOfferModel productOfferModel1 = new ProductOfferModel()
-                {
-                    OfferId = productOfferModel.OfferId,
-                    OfferPrice = productOfferModel.OfferPrice,
-                    SenderId = productOfferModel.SenderId,
-                    ReceiverId = productOfferModel.ReceiverId,
-                    ProductId = productOfferModel.ProductId,
-                    Status = offerStatus,
-                    Message = productOfferModel.Message
-                };
-                
-            }
-            else
-            {
-                offerStatus = "You Reject this offer.";
-            }
-            return offerStatus;
         }
         
     }

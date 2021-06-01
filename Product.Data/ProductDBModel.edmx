@@ -25,6 +25,8 @@
           <Property Name="SenderId" Type="int" Nullable="false" />
           <Property Name="ReceiverId" Type="int" Nullable="false" />
           <Property Name="Product Id" Type="int" Nullable="false" />
+          <Property Name="Message" Type="varchar" MaxLength="500" />
+          <Property Name="Status" Type="bit" />
         </EntityType>
         <EntityType Name="tblProduct">
           <Key>
@@ -43,6 +45,7 @@
           <Property Name="BidEndDateTime" Type="datetime" Nullable="false" />
           <Property Name="ImagePath" Type="varchar" MaxLength="1000" />
           <Property Name="AddedByUserId" Type="int" Nullable="false" />
+          <Property Name="ProductStatus" Type="bit" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -114,25 +117,21 @@
         <EntityContainer Name="WITSProjectEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tblAddress" EntityType="WITSProjectModel.tblAddress" />
           <EntitySet Name="tblOfferPrice" EntityType="WITSProjectModel.tblOfferPrice" />
-          <EntitySet Name="tblProduct" EntityType="WITSProjectModel.tblProduct" />
           <EntitySet Name="User" EntityType="WITSProjectModel.User" />
+          <EntitySet Name="tblProduct" EntityType="WITSProjectModel.tblProduct" />
           <AssociationSet Name="FK_tblProduct_tblAddress" Association="WITSProjectModel.FK_tblProduct_tblAddress">
             <End Role="tblAddress" EntitySet="tblAddress" />
-            <End Role="tblProduct" EntitySet="tblProduct" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProduct_tblProduct" Association="WITSProjectModel.FK_tblProduct_tblProduct">
-            <End Role="tblProduct" EntitySet="tblProduct" />
-            <End Role="tblProduct1" EntitySet="tblProduct" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProduct_User" Association="WITSProjectModel.FK_tblProduct_User">
-            <End Role="User" EntitySet="User" />
             <End Role="tblProduct" EntitySet="tblProduct" />
           </AssociationSet>
           <AssociationSet Name="FK_tblOfferPrice_tblProduct" Association="WITSProjectModel.FK_tblOfferPrice_tblProduct">
             <End Role="tblProduct" EntitySet="tblProduct" />
             <End Role="tblOfferPrice" EntitySet="tblOfferPrice" />
           </AssociationSet>
-        </EntityContainer>
+          <AssociationSet Name="FK_tblProduct_User" Association="WITSProjectModel.FK_tblProduct_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="tblProduct" EntitySet="tblProduct" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="tblAddress">
           <Key>
             <PropertyRef Name="Id" />
@@ -154,7 +153,19 @@
           <Property Name="SenderId" Type="Int32" Nullable="false" />
           <Property Name="ReceiverId" Type="Int32" Nullable="false" />
           <Property Name="Product_Id" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="tblProduct" Relationship="WITSProjectModel.FK_tblOfferPrice_tblProduct" FromRole="tblOfferPrice" ToRole="tblProduct" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblProduct" Relationship="WITSProjectModel.FK_tblProduct_User" FromRole="User" ToRole="tblProduct" />
         </EntityType>
         <EntityType Name="tblProduct">
           <Key>
@@ -173,21 +184,10 @@
           <Property Name="BidEndDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ImagePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="AddedByUserId" Type="Int32" Nullable="false" />
+          <Property Name="ProductStatus" Type="Boolean" />
           <NavigationProperty Name="tblAddress" Relationship="WITSProjectModel.FK_tblProduct_tblAddress" FromRole="tblProduct" ToRole="tblAddress" />
-          <NavigationProperty Name="tblProduct1" Relationship="WITSProjectModel.FK_tblProduct_tblProduct" FromRole="tblProduct" ToRole="tblProduct1" />
-          <NavigationProperty Name="tblProduct2" Relationship="WITSProjectModel.FK_tblProduct_tblProduct" FromRole="tblProduct1" ToRole="tblProduct" />
-          <NavigationProperty Name="User" Relationship="WITSProjectModel.FK_tblProduct_User" FromRole="tblProduct" ToRole="User" />
           <NavigationProperty Name="tblOfferPrice" Relationship="WITSProjectModel.FK_tblOfferPrice_tblProduct" FromRole="tblProduct" ToRole="tblOfferPrice" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tblProduct" Relationship="WITSProjectModel.FK_tblProduct_User" FromRole="User" ToRole="tblProduct" />
+          <NavigationProperty Name="User" Relationship="WITSProjectModel.FK_tblProduct_User" FromRole="tblProduct" ToRole="User" />
         </EntityType>
         <Association Name="FK_tblProduct_tblAddress">
           <End Type="WITSProjectModel.tblAddress" Role="tblAddress" Multiplicity="1" />
@@ -201,15 +201,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblProduct_tblProduct">
+        <Association Name="FK_tblOfferPrice_tblProduct">
           <End Type="WITSProjectModel.tblProduct" Role="tblProduct" Multiplicity="1" />
-          <End Type="WITSProjectModel.tblProduct" Role="tblProduct1" Multiplicity="0..1" />
+          <End Type="WITSProjectModel.tblOfferPrice" Role="tblOfferPrice" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tblProduct">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="tblProduct1">
-              <PropertyRef Name="ID" />
+            <Dependent Role="tblOfferPrice">
+              <PropertyRef Name="Product_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -222,18 +222,6 @@
             </Principal>
             <Dependent Role="tblProduct">
               <PropertyRef Name="AddedByUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblOfferPrice_tblProduct">
-          <End Type="WITSProjectModel.tblProduct" Role="tblProduct" Multiplicity="1" />
-          <End Type="WITSProjectModel.tblOfferPrice" Role="tblOfferPrice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblProduct">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="tblOfferPrice">
-              <PropertyRef Name="Product_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -258,6 +246,8 @@
           <EntitySetMapping Name="tblOfferPrice">
             <EntityTypeMapping TypeName="WITSProjectModel.tblOfferPrice">
               <MappingFragment StoreEntitySet="tblOfferPrice">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="Product_Id" ColumnName="Product Id" />
                 <ScalarProperty Name="ReceiverId" ColumnName="ReceiverId" />
                 <ScalarProperty Name="SenderId" ColumnName="SenderId" />
@@ -266,9 +256,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="WITSProjectModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblProduct">
             <EntityTypeMapping TypeName="WITSProjectModel.tblProduct">
               <MappingFragment StoreEntitySet="tblProduct">
+                <ScalarProperty Name="ProductStatus" ColumnName="ProductStatus" />
                 <ScalarProperty Name="AddedByUserId" ColumnName="AddedByUserId" />
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="BidEndDateTime" ColumnName="BidEndDateTime" />
@@ -282,16 +283,6 @@
                 <ScalarProperty Name="Brand" ColumnName="Brand" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="WITSProjectModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

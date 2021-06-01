@@ -6,14 +6,10 @@
 <div class="container">
         <div class="row">
             <div class="col">
-                  @Html.Partial("~/Views/Shared/_GetAllProducts.cshtml")
+                  @*Html.Partial("~/Views/Shared/_GetAllProducts.cshtml")*@
+                @{
+                    Html.RenderAction("GetAllProductsForCurrentUser", "Product");
+                }
             </div>
         </div>
 </div>
-
-
-@*<div class="col-md-8">
-    <ul id="menu" class="float-md-right">
-        <li>@Html.Partial("~/Views/Shared/_GetAllProducts.cshtml")</li>
-    </ul>
-    </div>*@

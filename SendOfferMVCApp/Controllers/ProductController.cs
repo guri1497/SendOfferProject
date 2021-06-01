@@ -19,10 +19,25 @@ namespace SendOfferMVCApp.Controllers
         IProductOfferRepo iProductOfferRepo;
         IAddressRepo iAddressRepo;
 
-        public ProductController(IAddressRepo addressRepo, IProductRepo productRepo)
+        public ProductController(IUserRepo _iUserRepo,IAddressRepo _iAddressRepo, IProductRepo _iProductRepo, IProductOfferRepo _iProductOfferRepo)
         {
-            iAddressRepo = addressRepo;
-            iProductRepo = productRepo;
+            iUserRepo = _iUserRepo;
+            iAddressRepo = _iAddressRepo;
+            iProductRepo = _iProductRepo;
+            iProductOfferRepo = _iProductOfferRepo;
+        }
+
+        public ActionResult GetAllProducts() // get all product data from database and return partial view
+        {
+            IEnumerable<ProductModel> listOfProduct = iProductRepo.GetAllProduct();
+            return PartialView(listOfProduct);
+        }
+
+        public ActionResult GetAllProductsForCurrentUser()
+        {
+            int cId = (int)Session["CurrentUserId"];
+            IEnumerable<ProductModel> listOfProduct = iProductRepo.GetAllProduct().Where(x => x.AddedByUserId != cId).ToList(); // get all product data
+            return PartialView(listOfProduct);
         }
 
         [HttpGet]
@@ -83,6 +98,53 @@ namespace SendOfferMVCApp.Controllers
             return RedirectToAction("AddProduct");
         }
 
+        public string OfferActions(int OfferID, bool OfferStatus)
+        {
+            var offerStatus = "";
+            if (OfferStatus == true)
+            {
+                offerStatus = "Congratulations,You Accepted the buyer offer.Your Product is sold now.";
+                ProductOfferModel productOfferModel = iProductOfferRepo.GetofferByID(OfferID);
+                ProductOfferModel productOfferModel1 = new ProductOfferModel()
+                {
+                    //OfferId = productOfferModel.OfferId,
+                    OfferPrice = productOfferModel.OfferPrice,
+                    SenderId = productOfferModel.SenderId,
+                    ReceiverId = productOfferModel.ReceiverId,
+                    ProductId = productOfferModel.ProductId,
+                    Status = OfferStatus,
+                    Message = productOfferModel.Message
+                };
+                iProductOfferRepo.UpdateOffer(productOfferModel);
+                ProductModel productModel = iProductRepo.GetProductById(productOfferModel.ProductId);
+
+
+                productModel.ProductStatus = productOfferModel.Status;
+                iProductRepo.UpdateProduct(productModel);
+            }
+            else
+            {
+                offerStatus = "You Reject this offer.";
+                ProductOfferModel productOfferModel = iProductOfferRepo.GetofferByID(OfferID);
+                ProductOfferModel productOfferModel1 = new ProductOfferModel()
+                {
+                    //OfferId = productOfferModel.OfferId,
+                    OfferPrice = productOfferModel.OfferPrice,
+                    SenderId = productOfferModel.SenderId,
+                    ReceiverId = productOfferModel.ReceiverId,
+                    ProductId = productOfferModel.ProductId,
+                    Status = OfferStatus,
+                    Message = productOfferModel.Message
+                };
+                iProductOfferRepo.UpdateOffer(productOfferModel);
+                ProductModel productModel = iProductRepo.GetProductById(productOfferModel.ProductId);
+
+
+                productModel.ProductStatus = productOfferModel.Status;
+                iProductRepo.UpdateProduct(productModel);
+            }
+            return offerStatus;
+        }
 
     }
 }

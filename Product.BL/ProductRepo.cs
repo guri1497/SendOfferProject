@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Product.Data;
+using System.Data.Entity.Migrations;
 
 namespace Product.BL
 {
@@ -49,32 +50,6 @@ namespace Product.BL
             };
             objWITSProjectEntities.tblProduct.Add(objProduct); // add record into database
             objWITSProjectEntities.SaveChanges(); // save the record into table
-        }
-
-        public int AddProduct(ProductModel objProductModel) // add record into database
-        {
-            //var objProduct = new tblProduct();
-
-            Product.Data.tblProduct objProduct = new tblProduct() // database class instance
-            {
-                Name = objProductModel.Name, // assign model property to daatabase class
-                Brand = objProductModel.Brand,
-                ModelNo = objProductModel.ModelNo,
-                Category = objProductModel.Category,
-                Condition = objProductModel.Condition,
-                BuyNowPrice = (int)objProductModel.BuyNowPrice,
-                BidPrice = (int)objProductModel.BidPrice,
-                Quantity = objProductModel.Quantity,
-                //AddressID = objProductModel.AddressId,
-                BidEndDateTime = Convert.ToDateTime(objProductModel.BidDateTime),
-                ImagePath = objProductModel.ImagePath,
-                AddedByUserId = (int)objProductModel.AddedByUserId,
-                //tblAddress = objProductModel.Address
-
-
-            };
-            objWITSProjectEntities.tblProduct.Add(objProduct); // add record into database
-            return objWITSProjectEntities.SaveChanges(); // save the record into table
         }
 
         public IEnumerable<ProductModel> GetAllProduct() // get all records from database
@@ -123,8 +98,49 @@ namespace Product.BL
                 BidDateTime = oneTblProducts.BidEndDateTime.ToString("yyy/MM/dd"),
                 ImagePath = oneTblProducts.ImagePath,
                 AddedByUserId = oneTblProducts.AddedByUserId,
+                AddressId = oneTblProducts.AddressID
+                
             };
             return listOfProduct; // gives list of the products
+        }
+
+        public void UpdateProduct(ProductModel objProductModel) // save offer data and returns int value
+        {
+            //tblAddress objtblAddress = new tblAddress()
+            //{
+            //    Id = objProductModel.Address.Id,
+            //    AddressLine1 = objProductModel.Address.AddressLine1,
+            //    AddressLine2 = objProductModel.Address.AddressLine2,
+            //    City = objProductModel.Address.City,
+            //    State = objProductModel.Address.State,
+            //    Country = objProductModel.Address.Country
+            //};
+
+
+            tblProduct objProduct = new tblProduct() // database class instance
+            {
+                ID = objProductModel.Id,
+                Name = objProductModel.Name, // assign model property to daatabase class
+                Brand = objProductModel.Brand,
+                ModelNo = objProductModel.ModelNo,
+                Category = objProductModel.Category,
+                Condition = objProductModel.Condition,
+                BuyNowPrice = (int)objProductModel.BuyNowPrice,
+                BidPrice = (int)objProductModel.BidPrice,
+                Quantity = objProductModel.Quantity,
+                AddressID = objProductModel.AddressId,
+                BidEndDateTime = Convert.ToDateTime(objProductModel.BidDateTime),
+                ImagePath = objProductModel.ImagePath,
+                AddedByUserId = (int)objProductModel.AddedByUserId,
+                //tblAddress = objtblAddress,
+                ProductStatus = objProductModel.ProductStatus
+            };
+
+            //objWITSProjectEntities.Entry(tblOffer).State = EntityState.Unchanged;
+            //objWITSProjectEntities.tblOfferPrice.Add(tblOffer);
+            objWITSProjectEntities.Set<tblProduct>().AddOrUpdate(objProduct);
+
+            objWITSProjectEntities.SaveChanges();
         }
 
     }

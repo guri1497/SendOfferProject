@@ -10,51 +10,51 @@
 
         @foreach (var item in Model)
         {
-            
-                <div class="col-4 mb-5  w-100 hover-shadow">
-                    <div class="card" style="width:18rem;">
-                        <img src="@Url.Content(item.ImagePath)" class="card-img-top" alt="card image" />
-                        <div class="card-body">
-                            <h5>@item.Name</h5>
-                            <span class="productId" style="display:none">@item.Id</span>
-                            <div class="font-weight-normal" style="font-size:13px;">
-                                <label class="text-muted mb-0">Pickup Location: </label> @item.AddressLine1 @item.City @item.State @item.Country
-                            </div>
 
-                            <div class="font-weight-normal" style="font-size:13px;">
-                                <label class="text-muted mb-0 mt-1">Time Remaining: </label>
-                                <span class="expiry-date" style="display:none;"> @item.BidDateTime</span>
-                                <span class="remain-time"></span>
-                            </div>
-                            <hr />
-                            <div class="align-content-center">
-                                <span style="font-size:25px;font-weight:600" class="text-muted">$@item.BidPrice</span>
-                                <button type="submit" class="btn btn-primary btn-sm float-right mt-2">Bid</button>
-                            </div>
-                            <span class="text-muted">Bid Price</span>
+            <div class="col-4 mb-5  w-100 hover-shadow">
+                <div class="card" style="width:18rem;">
+                    <img src="@Url.Content(item.ImagePath)" class="card-img-top" alt="card image" />
+                    <div class="card-body">
+                        <h5>@item.Name</h5>
+                        <span class="productId" style="display:none">@item.Id</span>
+                        <div class="font-weight-normal" style="font-size:13px;">
+                            <label class="text-muted mb-0">Pickup Location: </label> @item.AddressLine1 @item.City @item.State @item.Country
+                        </div>
+
+                        <div class="font-weight-normal" style="font-size:13px;">
+                            <label class="text-muted mb-0 mt-1">Time Remaining: </label>
+                            <span class="expiry-date" style="display:none;"> @item.BidDateTime</span>
+                            <span class="remain-time"></span>
+                        </div>
+                        <hr />
+                        <div class="align-content-center">
+                            <span style="font-size:25px;font-weight:600" class="text-muted">$@item.BidPrice</span>
+                            <button type="submit" class="btn btn-primary btn-sm float-right mt-2">Bid</button>
+                        </div>
+                        <span class="text-muted">Bid Price</span>
+                        <div>
+                            <span style="font-size:25px;font-weight:600" class="text-muted">$@item.BuyNowPrice</span>
+
+                            <button type="button" value="Bid" class="btn btn-primary btn-sm float-right mt-2">Buy Now</button>
+
+                        </div>
+
+                        <span class="text-muted">Buy Now Price</span>
+                        <div>
+                            <span style="font-size:25px;font-weight:600" class="text-muted">Send Offer</span>
                             <div>
-                                <span style="font-size:25px;font-weight:600" class="text-muted">$@item.BuyNowPrice</span>
+                                <button type="button" class="btn btn-primary btn-sm float-right mt-n4 testSendOffer" dataID="@item.Id">Offer</button>
 
-                                <button type="button" value="Bid" class="btn btn-primary btn-sm float-right mt-2">Buy Now</button>
-
-                            </div>
-
-                            <span class="text-muted">Buy Now Price</span>
-                            <div>
-                                <span style="font-size:25px;font-weight:600" class="text-muted">Send Offer</span>
-                                <div>
-                                    <button type="button" class="btn btn-primary btn-sm float-right mt-n4 testSendOffer" dataID="@item.Id">Offer</button>
-
-                                    <div style="display:none" dataID="@item.Id" class="testingDiv"></div>
-
-                                </div>
-
+                                <div style="display:none" dataID="@item.Id" class="testingDiv"></div>
 
                             </div>
+
+
                         </div>
                     </div>
                 </div>
-            
+            </div>
+
 
         }
     </div>
@@ -62,14 +62,15 @@
 </div>
 
 <style>
-    .testingDiv{
-        position:absolute;
-        top:10px;
-        left:270px;
-        z-index:1;
+    .testingDiv {
+        position: absolute;
+        top: 10px;
+        left: 270px;
+        z-index: 1;
     }
+
     .btn {
-          border-radius: 0;
+        border-radius: 0;
     }
 
     .bgColor {

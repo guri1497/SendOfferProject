@@ -19,6 +19,8 @@ namespace Product.Data
         public int SenderId { get; set; }
         public int ReceiverId { get; set; }
         public int Product_Id { get; set; }
+        public string Message { get; set; }
+        public Nullable<bool> Status { get; set; }
     
         public virtual tblProduct tblProduct { get; set; }
     }

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Product.Data;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
 
 namespace Product.BL
 {
@@ -33,7 +35,7 @@ namespace Product.BL
 
         public ProductOfferModel GetofferByID(int ID)  // get all offers
         {
-            var objProductOfferModel = objWITSProjectEntities.tblOfferPrice.Where(p => p.Product_Id == ID).FirstOrDefault();
+            var objProductOfferModel = objWITSProjectEntities.tblOfferPrice.Where(p => p.OfferId == ID).FirstOrDefault();
             ProductOfferModel productOfferModel = new ProductOfferModel()
             {
                 OfferId = objProductOfferModel.OfferId,
@@ -68,9 +70,13 @@ namespace Product.BL
                 SenderId = objProductOfferModel.SenderId,
                 ReceiverId = objProductOfferModel.ReceiverId,
                 Product_Id = objProductOfferModel.ProductId,
+                Message = objProductOfferModel.Message,
+                Status = objProductOfferModel.Status
             };
-            objWITSProjectEntities.Entry(tblOffer).State = System.Data.Entity.EntityState.Modified;
+            //objWITSProjectEntities.Entry(tblOffer).State = EntityState.Unchanged;
             //objWITSProjectEntities.tblOfferPrice.Add(tblOffer);
+            objWITSProjectEntities.Set<tblOfferPrice>().AddOrUpdate(tblOffer);
+
             objWITSProjectEntities.SaveChanges();
         }
 

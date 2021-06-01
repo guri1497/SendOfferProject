@@ -62,22 +62,14 @@ namespace Product.Model
         public string Country { get; set; }
         public Nullable<int> AddedByUserId { get; set; }
         //public string AddedByUserName { get; set; }
-        //public virtual IEnumerable<UserModel> UserModels { get; set; }
-        //public virtual IEnumerable<ProductOfferModel> ProductOfferModels { get; set; }
+        public virtual IEnumerable<UserModel> UserModels { get; set; }
+        public virtual ProductOfferModel ProductOfferModel { get; set; }
         public virtual AddressModel Address { get; set; }
+
+        public bool ProductStatus{ get; set; }
 
 
     }
 
-    //public class Address // this is pending for getting all data from address table
-    //{
-    //    public int AddressID { get; set; }
-    //    public string AddressLine1 { get; set; }
-    //    public string AddressLine2 { get; set; }
-    //    public string City{ get; set; }
-    //    public string State { get; set; }
-    //    public string Country{ get; set; }
-
-    //}
 
 }
