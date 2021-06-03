@@ -36,8 +36,8 @@ namespace Product.Data
         public Nullable<bool> ProductStatus { get; set; }
     
         public virtual tblAddress tblAddress { get; set; }
+        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblOfferPrice> tblOfferPrice { get; set; }
-        public virtual User User { get; set; }
     }
 }

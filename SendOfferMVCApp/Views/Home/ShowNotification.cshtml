@@ -12,7 +12,7 @@
         @if (item.Counter != null)
         {
             <div class="col-9">
-              @item.OfferId  @item.SenderName is countered=$@item.Counter offer price $@item.OfferPrice for your offer om @item.ProductName.
+              @item.SenderName revert back to your offer $@item.OfferPrice for your offer on @item.ProductName.
             </div>
             <div class="col-3">
                 <div class="row">
@@ -32,7 +32,7 @@
         else
         {
             <div class="col-9">
-                @item.OfferId @item.SenderName is offered $@item.OfferPrice for your @item.ProductName.
+                @item.SenderName is offered $@item.OfferPrice for your @item.ProductName.
             </div>
             <div class="col-3">
                 <div class="row">
@@ -112,7 +112,7 @@
             }
         })
             .done(function (response) { // recieve send offer code
-                debugger;
+             
                 cBtn.siblings().toggle().html(response); // show hide offer box
 
             })

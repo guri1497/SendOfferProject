@@ -98,5 +98,42 @@ namespace SendOfferMVCApp.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Buy Now Button functionality change status of product in database
+        /// </summary>
+        /// <param name="ProductID"> product id </param>
+        /// <param name="ProductStatus"> product status</param>
+        /// <returns> return true</returns>
+        public string BuyNowAction(int ProductID, bool ProductStatus) // action button mehod of offer notification 
+        {
+            string productStatus = "";
+            if (ProductStatus == true)
+            {
+
+                ProductModel product = iProductRepo.GetProductById(ProductID); //get offer by id
+                ProductModel productModel = new ProductModel()
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Brand = product.Brand,
+                    ModelNo = product.ModelNo,
+                    Category = product.Category,
+                    Condition = product.Condition,
+                    BuyNowPrice = product.BuyNowPrice,
+                    BidDateTime = product.BidDateTime,
+                    Quantity = product.Quantity,
+                    ImagePath = product.ImagePath,
+                    AddressId = product.AddressId,
+                    AddedByUserId = product.AddedByUserId,
+                    BidPrice = product.BidPrice,
+                    ProductStatus = ProductStatus
+                };
+
+                iProductRepo.UpdateProduct(productModel);
+                productStatus = "true";
+            }
+            return productStatus;
+        }
+
     }
 }

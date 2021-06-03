@@ -30,13 +30,13 @@
                             <hr />
                             <div class="align-content-center">
                                 <span style="font-size:25px;font-weight:600" class="text-muted">$@item.BidPrice</span>
-                                <button type="submit" class="btn btn-primary btn-sm float-right mt-2">Bid</button>
+                                <button type="button" class="btn btn-primary btn-sm float-right mt-2">Bid</button>
                             </div>
                             <span class="text-muted">Bid Price</span>
                             <div>
                                 <span style="font-size:25px;font-weight:600" class="text-muted">$@item.BuyNowPrice</span>
 
-                                <button type="button" value="Bid" class="btn btn-primary btn-sm float-right mt-2">Buy Now</button>
+                                <button type="button" value="true" dataID="@item.Id" class="btn btn-primary btn-sm float-right mt-2 btnBuyNow">Buy Now</button>
 
                             </div>
 
@@ -166,6 +166,26 @@
         })
             .done(function (response) { // recieve send offer code
                 cBtn.siblings().toggle().html(response); // show hide offer box
+
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) { // if code fail
+                alert("Fail");
+            });
+    });
+
+    $(".btnBuyNow").click(function () { // set click event on Send Offer Button
+        var cBtn = $(this);
+        var currentProductId = $(this).attr('dataID') // selecting current product id
+        $.ajax({
+            type: 'GET', // method type
+            url: '/Product/BuyNowAction', // send data to the url
+            data: {
+                ProductID: currentProductId, // current product id
+                ProductStatus: cBtn.val()
+            }
+        })
+            .done(function (response) { // recieve send offer code
+                alert("Congratulation, You Buy this product");
 
             })
             .fail(function (XMLHttpRequest, textStatus, errorThrown) { // if code fail

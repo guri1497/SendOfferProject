@@ -71,23 +71,27 @@ namespace SendOfferMVCApp.Controllers
         /// <returns>Show send offer popup using SendOffer.cshtml view</returns>
         public ActionResult SendCounterOffer(int OfferID)
         {
-            ProductOfferModel productOfferModel = iProductOfferRepo.GetofferByID(OfferID);
-            if (productOfferModel.Counter == null) // first counter means first barganing
+            ProductOfferModel model = iProductOfferRepo.GetofferByID(OfferID);
+            if (model.Counter == null) // first counter means first barganing
             {
-                productOfferModel.Counter = 1;
+                model.Counter = 1;
             }
             else
             {
-                productOfferModel.Counter += 1; // not first counter
+                model.Counter += 1; // not first counter
             }
             ShowOfferModel showOfferModel = new ShowOfferModel()
             {
-                ProductId = productOfferModel.ProductId,
-                SenderID = productOfferModel.ReceiverId,
-                RecieverID = productOfferModel.SenderId,
-                Counter = productOfferModel.Counter
+                ID = model.OfferId,
+                OfferPrice = model.OfferPrice,
+                SenderID = model.ReceiverId,
+                RecieverID = model.SenderId,
+                ProductId = model.ProductId,
+                Status = model.Status,
+                Message = model.Message,
+                Counter = model.Counter,
             };
-            return PartialView("~/Views/Offer/SendOffer.cshtml",showOfferModel);
+            return PartialView(showOfferModel);
         }
 
 

@@ -6,12 +6,12 @@
     <edmx:Diagrams>
       <Diagram DiagramId="cc9d673b5ebc44ccbdcd0ee0a49e5040" Name="Diagram1">
         <EntityTypeShape EntityType="WITSProjectModel.tblAddress" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="WITSProjectModel.tblOfferPrice" Width="1.5" PointX="5.75" PointY="2.5" />
         <EntityTypeShape EntityType="WITSProjectModel.User" Width="1.5" PointX="0.75" PointY="4" />
         <EntityTypeShape EntityType="WITSProjectModel.tblProduct" Width="1.5" PointX="3" PointY="1.25" />
         <AssociationConnector Association="WITSProjectModel.FK_tblProduct_tblAddress" />
-        <AssociationConnector Association="WITSProjectModel.FK_tblOfferPrice_tblProduct" />
         <AssociationConnector Association="WITSProjectModel.FK_tblProduct_User" />
+        <EntityTypeShape EntityType="WITSProjectModel.tblOfferPrice" Width="1.5" PointX="5.25" PointY="2" />
+        <AssociationConnector Association="WITSProjectModel.FK_tblOfferPrice_tblProduct" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

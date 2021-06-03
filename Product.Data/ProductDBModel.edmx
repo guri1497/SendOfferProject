@@ -27,7 +27,7 @@
           <Property Name="Product Id" Type="int" Nullable="false" />
           <Property Name="Message" Type="varchar" MaxLength="500" />
           <Property Name="Status" Type="bit" />
-          <Property Name="Counter" Type="money" />
+          <Property Name="Counter" Type="int" />
         </EntityType>
         <EntityType Name="tblProduct">
           <Key>
@@ -117,20 +117,20 @@
       <Schema Namespace="WITSProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="WITSProjectEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tblAddress" EntityType="WITSProjectModel.tblAddress" />
-          <EntitySet Name="tblOfferPrice" EntityType="WITSProjectModel.tblOfferPrice" />
           <EntitySet Name="User" EntityType="WITSProjectModel.User" />
           <EntitySet Name="tblProduct" EntityType="WITSProjectModel.tblProduct" />
           <AssociationSet Name="FK_tblProduct_tblAddress" Association="WITSProjectModel.FK_tblProduct_tblAddress">
             <End Role="tblAddress" EntitySet="tblAddress" />
             <End Role="tblProduct" EntitySet="tblProduct" />
           </AssociationSet>
-          <AssociationSet Name="FK_tblOfferPrice_tblProduct" Association="WITSProjectModel.FK_tblOfferPrice_tblProduct">
-            <End Role="tblProduct" EntitySet="tblProduct" />
-            <End Role="tblOfferPrice" EntitySet="tblOfferPrice" />
-          </AssociationSet>
           <AssociationSet Name="FK_tblProduct_User" Association="WITSProjectModel.FK_tblProduct_User">
             <End Role="User" EntitySet="User" />
             <End Role="tblProduct" EntitySet="tblProduct" />
+          </AssociationSet>
+          <EntitySet Name="tblOfferPrice" EntityType="WITSProjectModel.tblOfferPrice" />
+          <AssociationSet Name="FK_tblOfferPrice_tblProduct" Association="WITSProjectModel.FK_tblOfferPrice_tblProduct">
+            <End Role="tblProduct" EntitySet="tblProduct" />
+            <End Role="tblOfferPrice" EntitySet="tblOfferPrice" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="tblAddress">
@@ -144,20 +144,6 @@
           <Property Name="State" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Country" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tblProduct" Relationship="WITSProjectModel.FK_tblProduct_tblAddress" FromRole="tblAddress" ToRole="tblProduct" />
-        </EntityType>
-        <EntityType Name="tblOfferPrice">
-          <Key>
-            <PropertyRef Name="OfferId" />
-          </Key>
-          <Property Name="OfferId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OfferPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="SenderId" Type="Int32" Nullable="false" />
-          <Property Name="ReceiverId" Type="Int32" Nullable="false" />
-          <Property Name="Product_Id" Type="Int32" Nullable="false" />
-          <Property Name="Message" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="Boolean" />
-          <NavigationProperty Name="tblProduct" Relationship="WITSProjectModel.FK_tblOfferPrice_tblProduct" FromRole="tblOfferPrice" ToRole="tblProduct" />
-          <Property Name="Counter" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -188,8 +174,8 @@
           <Property Name="AddedByUserId" Type="Int32" Nullable="false" />
           <Property Name="ProductStatus" Type="Boolean" />
           <NavigationProperty Name="tblAddress" Relationship="WITSProjectModel.FK_tblProduct_tblAddress" FromRole="tblProduct" ToRole="tblAddress" />
-          <NavigationProperty Name="tblOfferPrice" Relationship="WITSProjectModel.FK_tblOfferPrice_tblProduct" FromRole="tblProduct" ToRole="tblOfferPrice" />
           <NavigationProperty Name="User" Relationship="WITSProjectModel.FK_tblProduct_User" FromRole="tblProduct" ToRole="User" />
+          <NavigationProperty Name="tblOfferPrice" Relationship="WITSProjectModel.FK_tblOfferPrice_tblProduct" FromRole="tblProduct" ToRole="tblOfferPrice" />
         </EntityType>
         <Association Name="FK_tblProduct_tblAddress">
           <End Type="WITSProjectModel.tblAddress" Role="tblAddress" Multiplicity="1" />
@@ -203,18 +189,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblOfferPrice_tblProduct">
-          <End Type="WITSProjectModel.tblProduct" Role="tblProduct" Multiplicity="1" />
-          <End Type="WITSProjectModel.tblOfferPrice" Role="tblOfferPrice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblProduct">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="tblOfferPrice">
-              <PropertyRef Name="Product_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tblProduct_User">
           <End Type="WITSProjectModel.User" Role="User" Multiplicity="1" />
           <End Type="WITSProjectModel.tblProduct" Role="tblProduct" Multiplicity="*" />
@@ -224,6 +198,32 @@
             </Principal>
             <Dependent Role="tblProduct">
               <PropertyRef Name="AddedByUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblOfferPrice">
+          <Key>
+            <PropertyRef Name="OfferId" />
+          </Key>
+          <Property Name="OfferId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OfferPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="SenderId" Type="Int32" Nullable="false" />
+          <Property Name="ReceiverId" Type="Int32" Nullable="false" />
+          <Property Name="Product_Id" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="Counter" Type="Int32" />
+          <NavigationProperty Name="tblProduct" Relationship="WITSProjectModel.FK_tblOfferPrice_tblProduct" FromRole="tblOfferPrice" ToRole="tblProduct" />
+        </EntityType>
+        <Association Name="FK_tblOfferPrice_tblProduct">
+          <End Type="WITSProjectModel.tblProduct" Role="tblProduct" Multiplicity="1" />
+          <End Type="WITSProjectModel.tblOfferPrice" Role="tblOfferPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProduct">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblOfferPrice">
+              <PropertyRef Name="Product_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -242,20 +242,6 @@
                 <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
                 <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblOfferPrice">
-            <EntityTypeMapping TypeName="WITSProjectModel.tblOfferPrice">
-              <MappingFragment StoreEntitySet="tblOfferPrice">
-                <ScalarProperty Name="Counter" ColumnName="Counter" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="Product_Id" ColumnName="Product Id" />
-                <ScalarProperty Name="ReceiverId" ColumnName="ReceiverId" />
-                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
-                <ScalarProperty Name="OfferPrice" ColumnName="OfferPrice" />
-                <ScalarProperty Name="OfferId" ColumnName="OfferId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -286,6 +272,20 @@
                 <ScalarProperty Name="Brand" ColumnName="Brand" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblOfferPrice">
+            <EntityTypeMapping TypeName="WITSProjectModel.tblOfferPrice">
+              <MappingFragment StoreEntitySet="tblOfferPrice">
+                <ScalarProperty Name="Counter" ColumnName="Counter" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Product_Id" ColumnName="Product Id" />
+                <ScalarProperty Name="ReceiverId" ColumnName="ReceiverId" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+                <ScalarProperty Name="OfferPrice" ColumnName="OfferPrice" />
+                <ScalarProperty Name="OfferId" ColumnName="OfferId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

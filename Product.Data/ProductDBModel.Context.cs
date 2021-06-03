@@ -26,8 +26,8 @@ namespace Product.Data
         }
     
         public virtual DbSet<tblAddress> tblAddress { get; set; }
-        public virtual DbSet<tblOfferPrice> tblOfferPrice { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<tblProduct> tblProduct { get; set; }
+        public virtual DbSet<tblOfferPrice> tblOfferPrice { get; set; }
     }
 }

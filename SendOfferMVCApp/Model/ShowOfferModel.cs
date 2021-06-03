@@ -16,7 +16,7 @@ namespace SendOfferMVCApp.Model
         public string SenderName{ get; set; }
         public string ProductName { get; set; }
         public Nullable<bool> Status { get; set; }
-        public Nullable<decimal> Counter { get; set; }
+        public Nullable<int> Counter { get; set; }
 
 
     }

@@ -21,7 +21,7 @@ namespace Product.Data
         public int Product_Id { get; set; }
         public string Message { get; set; }
         public Nullable<bool> Status { get; set; }
-        public Nullable<decimal> Counter { get; set; }
+        public Nullable<int> Counter { get; set; }
     
         public virtual tblProduct tblProduct { get; set; }
     }

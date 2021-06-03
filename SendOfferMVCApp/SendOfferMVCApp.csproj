@@ -345,6 +345,7 @@
     <Content Include="Views\Product\AddProduct.cshtml" />
     <Content Include="Views\Offer\SendOffer.cshtml" />
     <Content Include="Views\Product\GetAllProductsForCurrentUser.cshtml" />
+    <Content Include="Views\Offer\SendCounterOffer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\images\" />

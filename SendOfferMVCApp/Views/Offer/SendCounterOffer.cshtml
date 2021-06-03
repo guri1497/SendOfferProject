@@ -1,0 +1,48 @@
+﻿@model SendOfferMVCApp.Model.ShowOfferModel
+@{
+    ViewBag.Title = "SendCounterOffer";
+}
+
+<form id="offerCounterForm">
+    <div class="row mt-4" style="border:1px solid black">
+        <div class="col-md-12">
+            <label for="OfferPrice">Your Offer</label>
+            <input type="number" class="form-control" id="offerPrice" placeholder="$" name="OfferPrice">
+            <a id="offerMessage">Add Message</a>
+            <input type="text" id="offerMessageTextBox" name="Message" class="form-control" style="display:none" />
+            <input type="number" name="ProductId" style="display:none" value="@Model.ProductId" />
+            <input type="number" value="@Model.RecieverID" name="RecieverID" style="display:none" />
+            <input type="number" value="@Session["CurrentUserId"]" name="SenderID" style="display:none" />
+            <input type="number" value="@Model.Counter" name="Counter" style="display:none" />
+        </div>
+        <div class="row my-4">
+            <div class="col-md-12 ml-3">
+                <button class=" btn btn-sm btn-primary" id="btnSendCounterOffer">Send Offer</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+
+    $("#offerMessage").click(function () { // show/hide textbox on button click
+        $("#offerMessageTextBox").toggle();
+    });
+
+    $("#btnSendCounterOffer").click(function () { // select send offer button by id
+
+        $.ajax({
+            type: 'POST',
+            url: '/Offer/SendCounterOffer',
+            data: $("#offerCounterForm").serialize() // send data into c# action method
+        })
+            .done(function(response){  // if succefull
+                alert("Offer Send Succefully.");
+                console.log("done");
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) { // if fail
+                alert("Fail");
+            });
+    });
+</script>
