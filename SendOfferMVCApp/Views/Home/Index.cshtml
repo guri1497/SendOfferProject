@@ -6,7 +6,6 @@
 <div class="container">
         <div class="row">
             <div class="col">
-                  @*Html.Partial("~/Views/Shared/_GetAllProducts.cshtml")*@
                 @{
                     Html.RenderAction("GetAllProductsForCurrentUser", "Product");
                 }

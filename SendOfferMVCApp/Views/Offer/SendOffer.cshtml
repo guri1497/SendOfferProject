@@ -8,6 +8,7 @@
             <input type="number" name="ProductId" style="display:none" value="@Model.ProductId" />
             <input type="number" value="@Model.RecieverID" name="RecieverID" style="display:none" />
             <input type="number" value="@Session["CurrentUserId"]" name="SenderID" style="display:none" />
+            <input type="number" value="@Model.Counter" name="Counter" style="display:none"/>
             
         </div>
         <div class="card-body text-center">
@@ -23,7 +24,7 @@
 
 
 
-<script type="text/javascript">
+<script type="text/javascript">``
 
     $("#offerMessage").click(function () {
         $("#offerMessageTextBox").toggle();

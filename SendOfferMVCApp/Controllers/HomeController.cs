@@ -27,28 +27,8 @@ namespace SendOfferMVCApp.Controllers
 
         public ActionResult Index() // return the home screen index view
         {
-            //int cId = (int)Session["CurrentUserId"];
-            //IEnumerable<ProductModel> listOfProduct = iProductRepo.GetAllProduct().Where(x => x.AddedByUserId != cId).ToList(); // get all product data
             return View();
         }
-
-        //public ActionResult GetAllProducts() // get all product data from database and return partial view
-        //{
-        //    IEnumerable<ProductModel> listOfProduct = iProductRepo.GetAllProduct();
-        //    return PartialView("~/Views/Shared/_GetAllProducts.cshtml",listOfProduct);
-        //}
-
-        //[HttpPost]
-        //public void GetOfferDetails(ProductOfferModel productOfferModel)
-        //{
-        //    //ProductOfferModel productOfferModel = iProductOfferRepo.Getoffer().Where(x => x.OfferId == 0).FirstOrDefault();
-        //}
-        
-
-        //public ActionResult OfferPopup()
-        //{
-        //    return PartialView("~/Views/PartialView/_OfferPopup.cshtml");
-        //}
 
         [AllowAnonymous]
         public ActionResult ContactUs()
@@ -83,6 +63,9 @@ namespace SendOfferMVCApp.Controllers
                              OfferPrice = pom.OfferPrice,
                              SenderName = um.Name,
                              ProductName = pm.Name,
+                             Status =pom.Status,
+                             Message = pom.Message,
+                             Counter = pom.Counter
                          }).OrderByDescending(p=> p.OfferId).ToList(); // getting all neccesory data from diffrent tables
              
             return View("~/Views/Home/ShowNotification.cshtml",model);

@@ -28,7 +28,10 @@ namespace Product.BL
                 OfferPrice = (int)objProductOfferModel.OfferPrice,
                 SenderId = objProductOfferModel.SenderId,
                 ReceiverId = objProductOfferModel.ReceiverId,
-                ProductId = objProductOfferModel.Product_Id
+                ProductId = objProductOfferModel.Product_Id,
+                Status = objProductOfferModel.Status,
+                Message = objProductOfferModel.Message,
+                Counter = objProductOfferModel.Counter,
             });
             return productOfferModel;
         }
@@ -42,7 +45,10 @@ namespace Product.BL
                 OfferPrice = (int)objProductOfferModel.OfferPrice,
                 SenderId = objProductOfferModel.SenderId,
                 ReceiverId = objProductOfferModel.ReceiverId,
-                ProductId = objProductOfferModel.Product_Id
+                ProductId = objProductOfferModel.Product_Id,
+                Status= objProductOfferModel.Status,
+                Message = objProductOfferModel.Message,
+                Counter = objProductOfferModel.Counter,
             };
            return productOfferModel;
         }
@@ -56,6 +62,9 @@ namespace Product.BL
                 SenderId = objProductOfferModel.SenderId,
                 ReceiverId = objProductOfferModel.ReceiverId,
                 Product_Id = objProductOfferModel.ProductId,
+                Status = objProductOfferModel.Status,
+                Message = objProductOfferModel.Message,
+                Counter = objProductOfferModel.Counter,
             };
             objWITSProjectEntities.tblOfferPrice.Add(tblOffer);
             objWITSProjectEntities.SaveChanges();
@@ -71,12 +80,11 @@ namespace Product.BL
                 ReceiverId = objProductOfferModel.ReceiverId,
                 Product_Id = objProductOfferModel.ProductId,
                 Message = objProductOfferModel.Message,
-                Status = objProductOfferModel.Status
+                Status = objProductOfferModel.Status,
+                Counter = objProductOfferModel.Counter,
             };
-            //objWITSProjectEntities.Entry(tblOffer).State = EntityState.Unchanged;
-            //objWITSProjectEntities.tblOfferPrice.Add(tblOffer);
-            objWITSProjectEntities.Set<tblOfferPrice>().AddOrUpdate(tblOffer);
 
+            objWITSProjectEntities.Set<tblOfferPrice>().AddOrUpdate(tblOffer);
             objWITSProjectEntities.SaveChanges();
         }
 

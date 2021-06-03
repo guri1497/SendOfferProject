@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-md-8">
                     <ul id="menu" class="float-md-right">
-                        
+
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("Contact Us", "ContactUs", "Home")</li>
                         <li>@Html.ActionLink("About Us", "AboutUs", "Home")</li>
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-   
+
 
     <div>
         @RenderBody()
@@ -99,13 +99,17 @@
     <script src="~/Scripts/myScript.js"></script>
     <script src="~/Scripts/customJavaScript.js"></script>
     @RenderSection("scripts", required: false)
-<style>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <style>
 
         #footer-sidebar {
             color: #fff;
             background: #34495e;
             padding: 20px 0px;
-            margin-top: 40px;
+            /*position:absolute;
+            width:100%;
+            bottom:0;*/
         }
 
             #footer-sidebar a {
@@ -135,13 +139,16 @@
             color: #fff;
             background: #2c3e50;
             padding: 10px 0;
+           /* position: absolute;
+            margin-top:10px;
+            width: 100%;*/
+            bottom: 0;
         }
 
         .footer-year {
             text-align: center;
         }
-   
-</style>
+    </style>
     <script>
         $(window).resize(function () {
             var mobileWidth = (window.innerWidth > 0) ?
@@ -152,7 +159,7 @@
                 'width=1200';
             $("meta[name=viewport]").attr('content', viewport);
         }).resize();
-        
+
     </script>
 
 </body>

@@ -15,8 +15,9 @@ namespace Product.Model
         public int ProductId { get; set; }
         public string SenderName { get; set; }
         public string ProductName { get; set; }
-        public bool Status { get; set; }
+        public Nullable<bool> Status { get; set; }
         public string Message { get; set; }
+        public Nullable<decimal> Counter { get; set; }
         public virtual IEnumerable<UserModel> UserModels { get; set; }
         public virtual IEnumerable<ProductModel> ProductModels { get; set; }
     }

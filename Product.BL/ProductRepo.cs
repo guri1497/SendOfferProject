@@ -74,7 +74,8 @@ namespace Product.BL
                 AddressLine2 = objProductModel.tblAddress.AddressLine2,
                 City = objProductModel.tblAddress.City,
                 State = objProductModel.tblAddress.State,
-                Country = objProductModel.tblAddress.Country
+                Country = objProductModel.tblAddress.Country,
+                ProductStatus = objProductModel.ProductStatus
                 
             });
             return listOfProduct; // gives list of the products

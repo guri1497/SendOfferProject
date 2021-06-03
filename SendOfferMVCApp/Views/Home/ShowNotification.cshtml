@@ -6,46 +6,119 @@
 }
 
 <div class="container">
- @foreach (var item in Model)
- {
-        <div class="row mt-4">
-            <div class="col-9">
+    @foreach (var item in Model){
+    <div class="row mt-4">
 
-              @item.SenderName is offered $@item.OfferPrice for your @item.ProductName.
+        @if (item.Counter != null)
+        {
+            <div class="col-9">
+              @item.OfferId  @item.SenderName is countered=$@item.Counter offer price $@item.OfferPrice for your offer om @item.ProductName.
             </div>
             <div class="col-3">
-                <button class="btn btn-success btnOffer" dataID="@item.OfferId" value="true">Accept</button>
-                <button class="btn btn-danger btnOffer" dataID="@item.OfferId" value="false">Reject</button>
+                <div class="row">
+                    <div class="col-md-8">
+                        <button class="btn btn-success btnOffer" dataID="@item.OfferId" value="true">Accept</button>
+                        <button class="btn btn-danger btnOffer" dataID="@item.OfferId" value="false">Reject</button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="ml-n4">
+                            <button class="btn btn-dark btnCounter" dataID="@item.OfferId">Counter</button>
+                            <div style="display:none" dataID="@item.OfferId" class="showOfferDiv"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        }
+        else
+        {
+            <div class="col-9">
+                @item.OfferId @item.SenderName is offered $@item.OfferPrice for your @item.ProductName.
+            </div>
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-md-8">
+                        <button class="btn btn-success btnOffer" dataID="@item.OfferId" value="true">Accept</button>
+                        <button class="btn btn-danger btnOffer" dataID="@item.OfferId" value="false">Reject</button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="ml-n4">
+                            <button class="btn btn-dark btnCounter" dataID="@item.OfferId">Counter</button>
+                            <div style="display:none" dataID="@item.OfferId" class="showOfferDiv"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>        
+    <hr />
+   }
         </div>
-        <hr />
- }
-</div>
 
 <script>
 
     $(".btnOffer").click(function () {
-        //$(this).alert("Congratulations,You Accepted the buyer offer.Your Product is sold now.");
         var currentBtn = $(this);
         var currentOfferID = $(this).attr('dataID'); // selecting current product id
         var offerStatus = $(this).val();
         console.log(offerStatus);
         $.ajax({
             type: 'GET', // method type
-            url: '/Product/OfferActions', // send data to the url
+            url: '/Offer/OfferActions', // send data to the url
             data: {
                 OfferID : currentOfferID, // current product id
                 OfferStatus : offerStatus
             }
         })
             .done(function (response) { // recieve send offer code
-                alert(response);
-                currentBtn.prop('disabled', true);
+                console.log(response);
+                if (response == "true") {
+                    swal({
+                        title: "Congratulations",
+                        text: "You accept this offer and your product is sold now.",
+                        icon: "success",
+                        button: "Ok",
+                    })
+                    currentBtn.prop('disabled', true);
+                 // var rejectbtn = currentBtn.siblings;
+                //    console.log("check",rejectbtn);
+                //    rejectbtn.prop('disabled', true);
+                }
+                else {
+                    swal({
+                        title: "Are you sure ?",
+                        text: "Once rejected, you will not be able to get this offer!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    currentBtn.prop('disabled', true);
+                    //currentBtn.siblings.prop('disabled', true);
+                }
             })
             .fail(function (XMLHttpRequest, textStatus, errorThrown) { // if code fail
                 alert("Fail");
             });
 
+    });
+
+    $(".btnCounter").click(function () { // set click event on Counter Button
+        var cBtn = $(this);
+        var currentOfferId = $(this).attr('dataID') // selecting current product id
+        $.ajax({
+            type: 'GET', // method type
+            url: '/Offer/SendCounterOffer', // send data to the url
+            data: {
+                OfferID: currentOfferId, // current product id
+            }
+        })
+            .done(function (response) { // recieve send offer code
+                debugger;
+                cBtn.siblings().toggle().html(response); // show hide offer box
+
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) { // if code fail
+                alert("Fail");
+            });
     });
 
 </script>

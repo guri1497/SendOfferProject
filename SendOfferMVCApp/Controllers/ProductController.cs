@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace SendOfferMVCApp.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : Controller // home controller for controll all menu
     {
         
         IProductRepo iProductRepo;
@@ -27,31 +27,43 @@ namespace SendOfferMVCApp.Controllers
             iProductOfferRepo = _iProductOfferRepo;
         }
 
-        public ActionResult GetAllProducts() // get all product data from database and return partial view
-        {
-            IEnumerable<ProductModel> listOfProduct = iProductRepo.GetAllProduct();
-            return PartialView(listOfProduct);
-        }
-
+        /// <summary>
+        /// Get all products for current login user and this method is render in index view of home controller 
+        /// </summary>
+        /// <returns>filterd list of products</returns>
         public ActionResult GetAllProductsForCurrentUser()
         {
-            int cId = (int)Session["CurrentUserId"];
-            IEnumerable<ProductModel> listOfProduct = iProductRepo.GetAllProduct().Where(x => x.AddedByUserId != cId).ToList(); // get all product data
+            int cId = (int)Session["CurrentUserId"]; // current login user id
+            IEnumerable<ProductModel> listOfProduct = iProductRepo.GetAllProduct().Where(x => x.AddedByUserId != cId).ToList();
             return PartialView(listOfProduct);
         }
 
-        [HttpGet]
-        public ActionResult AddProduct() // return add product view form
+        public ActionResult CehckProductStatus() // testing pending not in working ----------------------
         {
+            List<ProductModel> productModel = iProductRepo.GetAllProduct().Where(p => p.ProductStatus == true).ToList();
 
             return View();
         }
 
-        [HttpPost]
-        public ActionResult AddProduct(ProductModel product) // check model state and return same view with alert
+        /// <summary>
+        /// Add new product method
+        /// </summary>
+        /// <returns>form for adding new product</returns>
+        [HttpGet]
+        public ActionResult AddProduct()
         {
-          
-            AddressModel addressModel = new AddressModel()
+            return View();
+        }
+
+        /// <summary>
+        /// Post method of addproduct
+        /// </summary>
+        /// <param name="product">takes product data received from end user</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult AddProduct(ProductModel product) 
+        {
+            AddressModel addressModel = new AddressModel() //first saving address due to forieng key 
             {
                 Id= product.Id,
                 AddressLine1=product.Address.AddressLine1,
@@ -60,8 +72,8 @@ namespace SendOfferMVCApp.Controllers
                 State = product.Address.State,
                 Country = product.Address.Country
             };
-            var currentAddressId  = iAddressRepo.SaveAddress(addressModel);
-            var currentAddress = iAddressRepo.GetAddressByID(currentAddressId);
+            var currentAddressId  = iAddressRepo.SaveAddress(addressModel); // address id of currently saving
+            var currentAddress = iAddressRepo.GetAddressByID(currentAddressId); // get current address
 
             ProductModel productModel = new ProductModel()
             {
@@ -80,70 +92,10 @@ namespace SendOfferMVCApp.Controllers
                 BidPrice = product.BidPrice,
                 Address = currentAddress
             };
-            iProductRepo.SaveProduct(productModel);
+            iProductRepo.SaveProduct(productModel); // new product save
             ViewBag.AddProductConfirmation = "Record added Succefully.";
-            ModelState.Clear();
+            ModelState.Clear(); // clear form data in view
             return View();
-        }
-
-        public ActionResult AddressSave()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult AddressSave(AddressModel addressModel)
-        {
-            iAddressRepo.SaveAddress(addressModel);
-            return RedirectToAction("AddProduct");
-        }
-
-        public string OfferActions(int OfferID, bool OfferStatus)
-        {
-            var offerStatus = "";
-            if (OfferStatus == true)
-            {
-                offerStatus = "Congratulations,You Accepted the buyer offer.Your Product is sold now.";
-                ProductOfferModel productOfferModel = iProductOfferRepo.GetofferByID(OfferID);
-                ProductOfferModel productOfferModel1 = new ProductOfferModel()
-                {
-                    //OfferId = productOfferModel.OfferId,
-                    OfferPrice = productOfferModel.OfferPrice,
-                    SenderId = productOfferModel.SenderId,
-                    ReceiverId = productOfferModel.ReceiverId,
-                    ProductId = productOfferModel.ProductId,
-                    Status = OfferStatus,
-                    Message = productOfferModel.Message
-                };
-                iProductOfferRepo.UpdateOffer(productOfferModel);
-                ProductModel productModel = iProductRepo.GetProductById(productOfferModel.ProductId);
-
-
-                productModel.ProductStatus = productOfferModel.Status;
-                iProductRepo.UpdateProduct(productModel);
-            }
-            else
-            {
-                offerStatus = "You Reject this offer.";
-                ProductOfferModel productOfferModel = iProductOfferRepo.GetofferByID(OfferID);
-                ProductOfferModel productOfferModel1 = new ProductOfferModel()
-                {
-                    //OfferId = productOfferModel.OfferId,
-                    OfferPrice = productOfferModel.OfferPrice,
-                    SenderId = productOfferModel.SenderId,
-                    ReceiverId = productOfferModel.ReceiverId,
-                    ProductId = productOfferModel.ProductId,
-                    Status = OfferStatus,
-                    Message = productOfferModel.Message
-                };
-                iProductOfferRepo.UpdateOffer(productOfferModel);
-                ProductModel productModel = iProductRepo.GetProductById(productOfferModel.ProductId);
-
-
-                productModel.ProductStatus = productOfferModel.Status;
-                iProductRepo.UpdateProduct(productModel);
-            }
-            return offerStatus;
         }
 
     }

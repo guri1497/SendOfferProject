@@ -5,6 +5,7 @@
     ViewBag.Title = "AddProduct";
 }
 
+<!--top banner-->
 <div id="banner" class="py-5">
     <div class="container">
         <div class="row">
@@ -20,6 +21,8 @@
 <br />
 <br />
 
+
+<!--Add new product form-->
 <div class="container">
     <form id="formAddProduct" enctype="multipart/form-data">
         <div class="form-horizontal">
@@ -137,21 +140,19 @@
                 </div>
             </div>
 
-        <div class="form-group">
-            <div class="col-md-8">
-                <label>Image</label>
-                <input type="hidden" id="ImagePath" name="ImagePath" />
-                <input class="form-control" id="btnImageUpload" name="ImageFile" type="file" accept=".png, .jpg" />
-            </div>
-            <div  class="col-md-4">
-                <div class="thumb">
-                    <img class="img-thumbnail img-fluid" id="productImage" />
+            <div class="form-group"> <!--Saving image-->
+                <div class="col-md-8">
+                    <label>Image</label>
+                    <input type="hidden" id="ImagePath" name="ImagePath" />
+                    <input class="form-control" id="btnImageUpload" name="ImageFile" type="file" accept=".png, .jpg" />
                 </div>
-            </div>        
-        </div>
+                <div  class="col-md-4">
+                    <div class="thumb">
+                        <img class="img-thumbnail img-fluid" id="productImage" />
+                    </div>
+                </div>        
+            </div>
             
-      
-           
             <div class="form-group" style="display:none;">
                 @Html.LabelFor(model => model.AddedByUserId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -186,13 +187,12 @@
 </div>
 
 <script type="text/javascript">
+    
+    $("#btnImageUpload").change(function () { // save image into database
 
-    $("#btnImageUpload").change(function () {
-		var element = this;
-
-		var formData = new FormData();
-
-		var totalFiles = element.files.length;
+        var element = this; // current element 
+		var formData = new FormData(); // create new form data instance
+		var totalFiles = element.files.length; // if multiple image save then save count of total images
 
 		for (var i = 0; i < totalFiles; i++) {
 			var file = element.files[i];
@@ -201,32 +201,31 @@
 
 		$.ajax({
 			type: 'POST',
-			url: '@Url.Action("UploadImage", "Shared")',
-			dataType: 'json',
-			data: formData,
+			url: '@Url.Action("UploadImage", "Shared")', // send data into url
+			dataType: 'json', // type of data sending
+			data: formData, // data
 			contentType: false,
 			processData: false
 		})
-        .done(function (response) {
-        	console.log(response);
-
+        .done(function (response) { // if done ajax call
+        	//console.log(response);
         	if(response.Success)
         	{
-        		$("#ImagePath").val(response.ImagePath);
-        		$("#productImage").attr("src", response.ImagePath);
+        		$("#ImagePath").val(response.ImagePath);  // save image path into Image path inpout box from response
+        		$("#productImage").attr("src", response.ImagePath); // show uploaded image
         	}
         })
-        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        .fail(function (XMLHttpRequest, textStatus, errorThrown) { // if fail ajax call
         	alert("FAIL");
         });
 	});
 
-    $("#btnAddProduct").click(function () {
+    $("#btnAddProduct").click(function () { // select add button
    
         $.ajax({
             type: 'POST',
             url: '/Product/AddProduct',
-            data: $("#formAddProduct").serialize()
+            data: $("#formAddProduct").serialize() // send form data into c# method
         })
             .done(function (response) {
                 alert("Record Added");

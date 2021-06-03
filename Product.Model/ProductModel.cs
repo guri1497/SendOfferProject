@@ -65,8 +65,7 @@ namespace Product.Model
         public virtual IEnumerable<UserModel> UserModels { get; set; }
         public virtual ProductOfferModel ProductOfferModel { get; set; }
         public virtual AddressModel Address { get; set; }
-
-        public bool ProductStatus{ get; set; }
+        public Nullable<bool> ProductStatus{ get; set; }
 
 
     }

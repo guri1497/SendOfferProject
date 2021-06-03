@@ -27,6 +27,7 @@
           <Property Name="Product Id" Type="int" Nullable="false" />
           <Property Name="Message" Type="varchar" MaxLength="500" />
           <Property Name="Status" Type="bit" />
+          <Property Name="Counter" Type="money" />
         </EntityType>
         <EntityType Name="tblProduct">
           <Key>
@@ -156,6 +157,7 @@
           <Property Name="Message" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="tblProduct" Relationship="WITSProjectModel.FK_tblOfferPrice_tblProduct" FromRole="tblOfferPrice" ToRole="tblProduct" />
+          <Property Name="Counter" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -246,6 +248,7 @@
           <EntitySetMapping Name="tblOfferPrice">
             <EntityTypeMapping TypeName="WITSProjectModel.tblOfferPrice">
               <MappingFragment StoreEntitySet="tblOfferPrice">
+                <ScalarProperty Name="Counter" ColumnName="Counter" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="Product_Id" ColumnName="Product Id" />

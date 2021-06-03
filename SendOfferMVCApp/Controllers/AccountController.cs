@@ -18,13 +18,25 @@ namespace SendOfferMVCApp.Controllers
         {
             iUserRepo = _iUserRepo;
         }
-        public ActionResult Login() // returns the login view first page loads
+
+        /// <summary>
+        /// Login user into website
+        /// </summary>
+        /// <returns>login view</returns>
+        public ActionResult Login()
         {
             return View();
         }
 
+        /// <summary>
+        /// Post method of login method 
+        /// </summary>
+        /// <param name="userModel">form data recieced from end user</param>
+        /// <returns>if success then redirect to index method of home controller and show all prodjuct
+        /// if fail return same view
+        /// </returns>
         [HttpPost]
-        public ActionResult Login(UserModel userModel) // handle the login form data and validate it and returns index view of home controller
+        public ActionResult Login(UserModel userModel) 
         {
             IEnumerable<UserModel> cUser = iUserRepo.Login(userModel); // returns all user list
             var CurrentUser = cUser.Where(x => x.Email == userModel.Email && x.Password == userModel.Password).FirstOrDefault();// check user is login or not
@@ -33,39 +45,29 @@ namespace SendOfferMVCApp.Controllers
                 FormsAuthentication.SetAuthCookie(userModel.Name, false);
                 Session["CurrentUserId"] = CurrentUser.Id;
                 Session["CurrentUserName"] = CurrentUser.Name;
-                return RedirectToAction("Index", "Home"); // if true return index view
+                return RedirectToAction("Index", "Home"); 
             }
-            ModelState.AddModelError("", "Invalid User Name and Password "); // if false return same view
+            ModelState.AddModelError("", "Invalid User Name and Password "); 
             ViewBag.UserId = userModel.Id;
             return View();
         }
 
-        //[HttpPost]
-        //public ActionResult Login(UserModel userModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        using (WITSProjectEntities objWITSProjectEntities = new WITSProjectEntities())
-        //        {
-        //            var obj = db.UserProfiles.Where(a => a.UserName.Equals(objUser.UserName) && a.Password.Equals(objUser.Password)).FirstOrDefault();
-        //            if (obj != null)
-        //            {
-        //                Session["UserID"] = obj.UserId.ToString();
-        //                Session["UserName"] = obj.UserName.ToString();
-        //                return RedirectToAction("UserDashBoard");
-        //            }
-        //        }
-        //    }
-        //    return View(objUser);
-        //}
-
+        /// <summary>
+        /// Register new user in website
+        /// </summary>
+        /// <returns>signup form</returns>
         public ActionResult SignUp() // return sginup view
         {
             return View();
         }
 
+        /// <summary>
+        /// post method of signup mehtod save user record into database
+        /// </summary>
+        /// <param name="userModel">takes user data from end user in view</param>
+        /// <returns>redirect to login for login customer into website</returns>
         [HttpPost]
-        public ActionResult SignUp(UserModel userModel) // check data from data and return login view
+        public ActionResult SignUp(UserModel userModel) 
         {
             if(ModelState.IsValid)
             {
@@ -77,6 +79,10 @@ namespace SendOfferMVCApp.Controllers
             return View();
         }
 
+        /// <summary>
+        /// signout user from website
+        /// </summary>
+        /// <returns> redirect to login page</returns>
         public ActionResult Logout() // signout the user
         {
             iUserRepo.Logout();
