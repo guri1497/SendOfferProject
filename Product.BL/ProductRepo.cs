@@ -107,17 +107,6 @@ namespace Product.BL
 
         public void UpdateProduct(ProductModel objProductModel) // save offer data and returns int value
         {
-            //tblAddress objtblAddress = new tblAddress()
-            //{
-            //    Id = objProductModel.Address.Id,
-            //    AddressLine1 = objProductModel.Address.AddressLine1,
-            //    AddressLine2 = objProductModel.Address.AddressLine2,
-            //    City = objProductModel.Address.City,
-            //    State = objProductModel.Address.State,
-            //    Country = objProductModel.Address.Country
-            //};
-
-
             tblProduct objProduct = new tblProduct() // database class instance
             {
                 ID = objProductModel.Id,
@@ -136,11 +125,7 @@ namespace Product.BL
                 //tblAddress = objtblAddress,
                 ProductStatus = objProductModel.ProductStatus
             };
-
-            //objWITSProjectEntities.Entry(tblOffer).State = EntityState.Unchanged;
-            //objWITSProjectEntities.tblOfferPrice.Add(tblOffer);
-            objWITSProjectEntities.Set<tblProduct>().AddOrUpdate(objProduct);
-
+            objWITSProjectEntities.Set<tblProduct>().AddOrUpdate(objProduct); // add or update record 
             objWITSProjectEntities.SaveChanges();
         }
 

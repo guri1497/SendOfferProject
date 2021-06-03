@@ -18,7 +18,7 @@ namespace Product.BL
             objWITSProjectEntities = new WITSProjectEntities();
         }
 
-        public int SaveAddress(AddressModel addressModel) // save category
+        public int SaveAddress(AddressModel addressModel) // save new address
         {
             tblAddress address = new tblAddress()
             {
@@ -34,7 +34,7 @@ namespace Product.BL
             return address.Id;
         }
 
-        public AddressModel GetAddressByID(int id)
+        public AddressModel GetAddressByID(int id) //get address by id
         {
             tblAddress tblAddress = objWITSProjectEntities.tblAddress.Find(id);
 

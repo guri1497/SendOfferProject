@@ -26,22 +26,22 @@
 
 <script type="text/javascript">``
 
-    $("#offerMessage").click(function () {
+    $("#offerMessage").click(function () { // show/hide textbox on button click
         $("#offerMessageTextBox").toggle();
     });
 
-    $("#btnSendOffer").click(function () {
+    $("#btnSendOffer").click(function () { // select send offer button by id
       
         $.ajax({
             type: 'POST',
             url: '/Offer/SendOffer',
-            data: $("#offerForm").serialize()
+            data: $("#offerForm").serialize() // send data into c# action method
         })
-            .done(function(response){  
-                alert("Offer Send Succefully.");
+            .done(function(response){  // if succefull
+                alert("Offer Send Succefully."); 
                 console.log("done");
             })
-            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) { // if fail
                 alert("Fail");
             });
     });

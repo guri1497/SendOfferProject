@@ -5,12 +5,11 @@
 }
 <div class="container mt-5">
     <div class="row" id="test1">
-        @if (Model != null)
+        @if (Model != null) // check if product list is empty
         {
             foreach (var item in Model)
-            {
-
-                var checkSoldProduct = item.ProductStatus != false && item.ProductStatus != null ? "soldProduct" : "";
+            { 
+            var checkSoldProduct = item.ProductStatus != false && item.ProductStatus != null ? "soldProduct" : ""; // if product is sold the set this class into card main div
 
                 <div class="col-4 mb-5  w-100 hover-shadow">
                     <div class="card @checkSoldProduct" style="width:18rem;">
@@ -50,8 +49,6 @@
                                     <div style="display:none" dataID="@item.Id" class="showOfferDiv"></div>
 
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -78,7 +75,8 @@
         z-index: 1;
     }
 
-    .soldProduct {
+    /* sold product class style*/
+    .soldProduct { 
         border: 1px solid black;
         background-color: lightgrey;
         width: auto;

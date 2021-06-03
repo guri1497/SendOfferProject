@@ -51,10 +51,6 @@ namespace Product.BL
 
         public IEnumerable<UserModel> Login(UserModel userModel) // check email and password in login form
         {
-            //bool isValid = objWITSProjectEntities.Users.Any(x => x.Email == userModel.Email && x.Password == userModel.Password);
-            //cUser = objWITSProjectEntities.Users.Where(x => x.Email == userModel.Email && x.Password == userModel.Password).FirstOrDefault().ToString();
-            //User objUser = objWITSProjectEntities.Users.Where(x => x.Email == userModel.Email && x.Password == userModel.Password).FirstOrDefault();
-            //return !isValid ? false : true;
             List<User> users = objWITSProjectEntities.User.ToList();
             IEnumerable<UserModel> cUser = users.Select(objUserModel => new UserModel 
             { 
@@ -82,7 +78,6 @@ namespace Product.BL
                 //ConfirmPassword = userModel.ConfirmPassword,
                 Email = userModel.Email
             };
-
 
             objWITSProjectEntities.User.Add(objUser); //add new record into database
             return objWITSProjectEntities.SaveChanges(); // save record in database

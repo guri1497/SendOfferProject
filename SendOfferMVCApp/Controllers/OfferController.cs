@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace SendOfferMVCApp.Controllers
 {
-    public class OfferController : Controller
+    public class OfferController : Controller // Offer controller for controll all Product related stuff
     {
 
         IProductRepo iProductRepo;
@@ -23,6 +23,11 @@ namespace SendOfferMVCApp.Controllers
             iProductOfferRepo = _iProductOfferRepo;
         }
 
+        /// <summary>
+        /// Send offer to user who listed product
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult SendOffer(int ID) // open popup on send offer button click
         {
@@ -33,17 +38,47 @@ namespace SendOfferMVCApp.Controllers
         };
             return PartialView(model);
         }
+          
+        /// <summary>
+        /// Post method of send offer method
+        /// </summary>
+        /// <param name="showOfferModel"> Offer data recieved from end user</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult SendOffer(ShowOfferModel showOfferModel) // open popup on send offer button click
+        {
+            //var product = iProductRepo.GetProductById(showOfferModel.ProductId);
+            ProductOfferModel productOfferModel = new ProductOfferModel()
+            {
+                OfferId = showOfferModel.ID,
+                OfferPrice = showOfferModel.OfferPrice,
+                SenderId = showOfferModel.SenderID,
+                ReceiverId = showOfferModel.RecieverID,
+                ProductId = showOfferModel.ProductId,
+                Status = showOfferModel.Status,
+                Message = showOfferModel.Message,
+                Counter = showOfferModel.Counter,
+            };
+            iProductOfferRepo.SaveOffer(productOfferModel);
+            return RedirectToAction("Index", "Home");
+        }
 
+
+        /// <summary>
+        /// Send counter offer to user vice versa
+        /// </summary>
+        /// <param name="OfferID"> offer id </param>
+        /// <returns>Show send offer popup using SendOffer.cshtml view</returns>
         public ActionResult SendCounterOffer(int OfferID)
         {
             ProductOfferModel productOfferModel = iProductOfferRepo.GetofferByID(OfferID);
-            if (productOfferModel.Counter == null)
+            if (productOfferModel.Counter == null) // first counter means first barganing
             {
                 productOfferModel.Counter = 1;
             }
             else
             {
-                productOfferModel.Counter += 1;
+                productOfferModel.Counter += 1; // not first counter
             }
             ShowOfferModel showOfferModel = new ShowOfferModel()
             {
@@ -55,6 +90,12 @@ namespace SendOfferMVCApp.Controllers
             return PartialView("~/Views/Offer/SendOffer.cshtml",showOfferModel);
         }
 
+
+        /// <summary>
+        /// post method of send counter offer
+        /// </summary>
+        /// <param name="model">Counter offer data</param>
+        /// <returns> index view of home contoller</returns>
         [HttpPost]
         public ActionResult SendCounterOffer(ShowOfferModel model)
         {
@@ -73,28 +114,16 @@ namespace SendOfferMVCApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost]
-        public ActionResult SendOffer(ShowOfferModel showOfferModel) // open popup on send offer button click
-        {
-            //var product = iProductRepo.GetProductById(showOfferModel.ProductId);
-            ProductOfferModel productOfferModel = new ProductOfferModel()
-            {
-                OfferId = showOfferModel.ID,
-                OfferPrice = showOfferModel.OfferPrice,
-                SenderId = showOfferModel.SenderID,
-                ReceiverId = showOfferModel.RecieverID,
-                ProductId = showOfferModel.ProductId,
-                Status = showOfferModel.Status,
-                Message = showOfferModel.Message,
-                Counter = showOfferModel.Counter,
-            };
-            iProductOfferRepo.SaveOffer(productOfferModel);
-            return RedirectToAction("Index","Home");
-        }
-
+        
+        /// <summary>
+        /// ShowNotification method action control 
+        /// </summary>
+        /// <param name="OfferID"> Offer id of offer</param>
+        /// <param name="OfferStatus"> value based of button click </param>
+        /// <returns>value of cliked button</returns>
         public string OfferActions(int OfferID, bool OfferStatus) // action button mehod of offer notification 
         {
-            string offerStatus = "";
+            string offerStatus = "" ;
             if (OfferStatus == true)
             {
                

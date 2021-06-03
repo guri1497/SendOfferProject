@@ -343,14 +343,11 @@
     <Content Include="Scripts\moment-with-locales.min.js.map" />
     <Content Include="Views\Home\ShowNotification.cshtml" />
     <Content Include="Views\Product\AddProduct.cshtml" />
-    <Content Include="Views\Product\AddressSave.cshtml" />
     <Content Include="Views\Offer\SendOffer.cshtml" />
     <Content Include="Views\Product\GetAllProductsForCurrentUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\images\" />
-    <Folder Include="Image\" />
-    <Folder Include="Views\PartialView\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
